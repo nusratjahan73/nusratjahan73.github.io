@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nusrat Jahan — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest:#22223B;--forest-light:#4A4E69;--ash:#9A8C98;--light:#C9ADA7;--cream:#F2E9E4;
+  --forest-trans:rgba(34,34,59,0.6);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--forest);color:var(--cream);line-height:1.7;overflow-x:hidden}
+::selection{background:var(--ash);color:var(--forest)}
+.container{max-width:1100px;margin:0 auto;padding:0 2rem}
+
+/* PROGRESS */
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--ash),var(--cream));z-index:300;width:0%}
+
+/* FLOATING ICONS CANVAS */
+#iconCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;padding:1.5rem 2.5rem;z-index:200;transition:all .4s}
+nav.scrolled{background:rgba(34,34,59,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(183,183,164,0.1)}
+nav .nav-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+nav .logo{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--cream);text-decoration:none;letter-spacing:.15em;text-transform:uppercase;font-weight:400}
+nav .nav-links{display:flex;gap:2.5rem;list-style:none}
+nav .nav-links a{color:var(--ash);text-decoration:none;font-size:.75rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;transition:color .3s}
+nav .nav-links a:hover{color:var(--cream)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;z-index:1}
+.hero-label{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ash);margin-bottom:2rem;opacity:0;animation:fadeIn 1s ease forwards .5s}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(3.5rem,8vw,7rem);font-weight:900;line-height:1;letter-spacing:-.02em;margin-bottom:1rem;opacity:0;animation:scaleIn 1.2s cubic-bezier(.16,1,.3,1) forwards .3s}
+.hero-line{width:80px;height:2px;background:var(--ash);margin:1.5rem auto;opacity:0;animation:expandLine 1s ease forwards 1s}
+.hero-sub{font-size:1rem;color:var(--ash);font-weight:300;letter-spacing:.05em;max-width:500px;margin:0 auto 1rem;opacity:0;animation:fadeIn 1s ease forwards 1.2s}
+.hero-status{display:inline-block;padding:.5rem 1.5rem;border:1px solid var(--ash);color:var(--ash);font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3rem;opacity:0;animation:fadeIn 1s ease forwards 1.4s}
+.scroll-prompt{opacity:0;animation:fadeIn 1s ease forwards 1.8s;text-align:center}
+.scroll-prompt p{font-size:.75rem;letter-spacing:.15em;color:var(--ash);margin-bottom:.8rem;text-transform:uppercase}
+.scroll-prompt .mouse{width:24px;height:38px;border:2px solid var(--ash);border-radius:12px;margin:0 auto;position:relative}
+.scroll-prompt .mouse::after{content:'';width:3px;height:8px;background:var(--ash);border-radius:2px;position:absolute;top:6px;left:50%;transform:translateX(-50%);animation:mouseScroll 2s infinite}
+@keyframes mouseScroll{0%{opacity:1;top:6px}100%{opacity:0;top:20px}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.85) translateY(30px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes expandLine{from{width:0;opacity:0}to{width:80px;opacity:1}}
+
+/* GEOMETRIC DIVIDER */
+.geo-divider{position:relative;height:400px;z-index:1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.geo-circle{position:absolute;border:1.5px solid rgba(183,183,164,0.2);border-radius:50%;transition:transform 1.5s cubic-bezier(.16,1,.3,1)}
+.geo-hatch{position:absolute;background:repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(183,183,164,0.06) 4px,rgba(183,183,164,0.06) 5px);transition:transform 1.5s cubic-bezier(.16,1,.3,1),opacity 1s}
+.geo-divider .quote{position:relative;z-index:2;text-align:center;max-width:700px;padding:0 2rem}
+.geo-divider .quote p{font-family:'Playfair Display',serif;font-size:clamp(1.1rem,2.5vw,1.5rem);font-style:italic;color:var(--light);line-height:1.6;font-weight:400}
+.geo-divider .quote cite{display:block;margin-top:1rem;font-size:.8rem;color:var(--ash);font-style:normal;letter-spacing:.1em}
+
+/* SECTIONS */
+section{padding:6rem 0;position:relative;z-index:1}
+.section-label{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ash);margin-bottom:1rem;font-weight:500}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);margin-bottom:3.5rem;line-height:1.1;color:var(--cream);font-weight:700}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(50px);transition:all .9s cubic-bezier(.16,1,.3,1)}
+.rv.on{opacity:1;transform:translateY(0)}
+.rv-l{opacity:0;transform:translateX(-50px);transition:all .9s cubic-bezier(.16,1,.3,1)}
+.rv-l.on{opacity:1;transform:translateX(0)}
+.rv-r{opacity:0;transform:translateX(50px);transition:all .9s cubic-bezier(.16,1,.3,1)}
+.rv-r.on{opacity:1;transform:translateX(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}.d6{transition-delay:.6s}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem}
+.about-text{color:var(--ash);font-weight:300;font-size:.95rem}
+.about-text p{margin-bottom:1.2rem}
+.skills-wrap{margin-top:1.5rem}
+.skills-grid{display:flex;flex-wrap:wrap;gap:.5rem}
+.skill{padding:.4rem 1rem;border:1px solid rgba(183,183,164,0.2);color:var(--ash);font-size:.75rem;font-weight:500;letter-spacing:.04em;transition:all .3s;cursor:default}
+.skill:hover{background:var(--ash);color:var(--forest);transform:translateY(-2px)}
+
+/* EXPERIENCE */
+.exp{padding:2rem;border:1px solid rgba(183,183,164,0.1);margin-bottom:1.5rem;background:rgba(255,255,255,0.02);transition:all .4s;position:relative;overflow:hidden}
+.exp::before{content:'';position:absolute;left:0;top:0;width:3px;height:0;background:var(--ash);transition:height .6s ease}
+.exp:hover::before{height:100%}
+.exp:hover{border-color:rgba(183,183,164,0.25);background:rgba(255,255,255,0.04)}
+.exp-top{display:flex;justify-content:space-between;flex-wrap:wrap;margin-bottom:1rem}
+.exp h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--cream)}
+.exp .co{color:var(--ash);font-size:.9rem;margin-top:.2rem}
+.exp .loc{color:rgba(183,183,164,0.5);font-size:.78rem}
+.exp .dt{color:var(--ash);font-size:.8rem;text-align:right}
+.exp .dur{color:rgba(183,183,164,0.4);font-size:.72rem;text-align:right}
+.exp p{color:rgba(183,183,164,0.7);font-weight:300;font-size:.9rem}
+
+/* PROJECTS */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:1.5rem}
+.proj{background:rgba(255,255,255,0.02);border:1px solid rgba(183,183,164,0.1);padding:2rem;display:flex;flex-direction:column;transition:all .5s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
+.proj::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ash),var(--cream));transform:scaleX(0);transform-origin:left;transition:transform .5s ease}
+.proj:hover::after{transform:scaleX(1)}
+.proj:hover{border-color:rgba(183,183,164,0.3);transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,0,0,0.3)}
+.proj-type{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--ash);margin-bottom:.8rem;font-weight:600}
+.proj h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:.8rem;color:var(--cream);line-height:1.3}
+.proj p{color:rgba(183,183,164,0.7);font-size:.85rem;font-weight:300;flex-grow:1;margin-bottom:1.2rem}
+.proj-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.2rem}
+.proj-tags span{padding:.2rem .6rem;border:1px solid rgba(183,183,164,0.15);font-size:.65rem;color:var(--ash);letter-spacing:.04em;transition:all .2s}
+.proj-tags span:hover{background:var(--ash);color:var(--forest)}
+.proj-links{display:flex;gap:1.2rem}
+.proj-links a{font-size:.78rem;color:var(--cream);text-decoration:none;font-weight:500;letter-spacing:.05em;transition:color .3s}
+.proj-links a:hover{color:var(--ash)}
+
+/* EDUCATION */
+.edu{padding:2rem;border-left:3px solid var(--ash);margin-bottom:2rem;background:rgba(255,255,255,0.02);transition:all .4s}
+.edu:hover{transform:translateX(8px);background:rgba(255,255,255,0.04)}
+.edu h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--cream);margin-bottom:.3rem}
+.edu .sch{color:var(--ash);font-size:.9rem}.edu .edt{color:rgba(183,183,164,0.5);font-size:.85rem}.edu .st{color:rgba(183,183,164,0.5);font-size:.85rem}
+.course-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-top:1.5rem}
+.cc{padding:1.4rem;border:1px solid rgba(183,183,164,0.1);background:rgba(255,255,255,0.02);transition:all .3s}
+.cc:hover{border-color:var(--ash);transform:translateY(-3px);background:rgba(255,255,255,0.04)}
+.cc-code{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--ash);margin-bottom:.4rem}
+.cc h4{font-size:.9rem;font-weight:500;color:var(--cream)}
+
+/* CONTACT */
+.contact{text-align:center;padding:8rem 0}
+.contact .section-title{margin-bottom:1.5rem}
+.contact-desc{color:var(--ash);font-weight:300;margin-bottom:3rem;max-width:550px;margin-left:auto;margin-right:auto;font-size:.95rem}
+.contact-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap}
+.contact-links a{color:var(--cream);text-decoration:none;font-size:.8rem;padding:.8rem 2.5rem;border:1.5px solid var(--ash);letter-spacing:.1em;text-transform:uppercase;font-weight:500;transition:all .3s}
+.contact-links a:hover{background:var(--ash);color:var(--forest);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.3)}
+
+footer{text-align:center;padding:2.5rem;color:rgba(183,183,164,0.3);font-size:.72rem;letter-spacing:.1em;border-top:1px solid rgba(183,183,164,0.08);z-index:1;position:relative}
+
+.line-sep{height:1px;background:rgba(183,183,164,0.08);z-index:1;position:relative}
+
+@media(max-width:768px){
+  .about-grid{grid-template-columns:1fr}
+  nav .nav-links{gap:1.2rem}
+  nav .nav-links a{font-size:.65rem}
+  .proj-grid{grid-template-columns:1fr}
+  .course-grid{grid-template-columns:1fr}
+  .exp-top{flex-direction:column}
+  .exp .dt,.exp .dur{text-align:left}
+  .geo-divider{height:300px}
+}
+@media(max-width:480px){nav .nav-links{display:none}}
+</style>
+</head>
+<body>
+
+<div class="progress" id="prog"></div>
+<canvas id="iconCanvas"></canvas>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">Nusrat Jahan</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-label">Masters Student &bull; AI Engineer &bull; Business Analytics & Intelligence</div>
+  <h1>NUSRAT<br>JAHAN</h1>
+  <div class="hero-line"></div>
+  <p class="hero-sub">Data Visualization &bull; Business Intelligence &bull; AI &bull; Storytelling</p>
+  <div class="hero-status">Open to Internship, Co-op & Part-time</div>
+  <div class="scroll-prompt">
+    <p>Scroll to explore</p>
+    <div class="mouse"></div>
+  </div>
+</section>
+
+<!-- GEO DIVIDER 1 -->
+<div class="geo-divider">
+  <div class="geo-circle" style="width:280px;height:280px;top:10%;right:15%"></div>
+  <div class="geo-circle" style="width:180px;height:180px;bottom:10%;left:20%"></div>
+  <div class="geo-hatch" style="width:350px;height:250px;top:15%;left:30%;transform:rotate(-5deg)"></div>
+  <div class="quote rv">
+    <p>"The world is one big data problem."</p>
+    <cite>— Andrew McAfee</cite>
+  </div>
+</div>
+
+<div class="line-sep"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-label rv">About Me</div>
+    <div class="section-title rv">Turning data<br>into decisions</div>
+    <div class="about-grid">
+      <div class="about-text rv-l">
+        <p>Currently pursuing Master's in Business Analytics and AI at Ontario Tech University, building upon a 4-year degree in Computer Science Engineering from MIST.</p>
+        <p>My technical toolkit includes Advanced Python with Pandas, Matplotlib, and Plotly for real-world data manipulation, visualization, and processing. Proficient in Power BI and Tableau for comprehensive business intelligence and data-driven decision-making.</p>
+        <p>Previously spent several years in the financial sector at Laurentian Bank, developing a rigorous approach to data reconciliation, financial modeling, and risk assessment. Now applying this analytical background to AI and Data Science.</p>
+      </div>
+      <div class="rv-r">
+        <div class="section-label" style="margin-bottom:1rem">Technical Skills</div>
+        <div class="skills-grid">
+          <span class="skill">Python</span><span class="skill">Pandas</span><span class="skill">NumPy</span><span class="skill">Matplotlib</span><span class="skill">Plotly</span><span class="skill">SciPy</span><span class="skill">Dash</span><span class="skill">Power BI</span><span class="skill">Tableau</span><span class="skill">Excel</span><span class="skill">Figma</span><span class="skill">Flourish</span><span class="skill">Canva</span><span class="skill">Git & GitHub</span>
+        </div>
+        <div class="section-label" style="margin-top:2rem;margin-bottom:1rem">Core Competencies</div>
+        <div class="skills-grid">
+          <span class="skill">Analytical Skills</span><span class="skill">Financial Analysis</span><span class="skill">Business Intelligence</span><span class="skill">Data Management</span><span class="skill">Risk Assessment</span><span class="skill">AML Compliance</span><span class="skill">Due Diligence</span><span class="skill">Process Optimization</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="line-sep"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label rv">Professional Experience</div>
+    <div class="section-title rv">Where I've<br>worked</div>
+    <div class="exp rv d1">
+      <div class="exp-top"><div><h3>Accounting Analyst</h3><div class="co">Laurentian Bank</div><div class="loc">Toronto, ON &bull; Hybrid</div></div><div><div class="dt">Oct 2022 — Oct 2024</div><div class="dur">2 years 1 month</div></div></div>
+      <p>Analyzed trends and customer behaviors to deliver actionable insights for Directors and Controllers. Investigated complex account discrepancies across multiple systems. Managed massive volumes of transactional data ensuring strict AML compliance. Identified process inefficiencies and enhanced operational accuracy.</p>
+    </div>
+    <div class="exp rv d2">
+      <div class="exp-top"><div><h3>Financial Customer Service Representative</h3><div class="co">PAY2DAY Inc.</div><div class="loc">Oshawa, ON &bull; On-site</div></div><div><div class="dt">Sep 2021 — Sep 2022</div><div class="dur">1 year 1 month</div></div></div>
+      <p>Conducted economic risk assessments for loan approvals and investigated suspicious transactions to prevent fraud. Utilized Excel and advanced functions to generate branch-specific financial documents, improving data processing efficiency.</p>
+    </div>
+    <div class="exp rv d3">
+      <div class="exp-top"><div><h3>Team Member</h3><div class="co">Tim Hortons</div><div class="loc">Whitby, ON &bull; On-site</div></div><div><div class="dt">Mar 2021 — Sep 2021</div><div class="dur">7 months</div></div></div>
+      <p>Delivered fast, friendly customer service in a high-volume environment. Managed orders, maintained quality standards, and ensured smooth daily operations.</p>
+    </div>
+    <div class="exp rv d4">
+      <div class="exp-top"><div><h3>Officer in Retail Account Services</h3><div class="co">Brac Bank Limited</div><div class="loc">Dhaka, Bangladesh &bull; On-site</div></div><div><div class="dt">Jul 2019 — Jan 2021</div><div class="dur">1 year 7 months</div></div></div>
+      <p>Led the department in volume of accounts processed. Verified KYC compliance, validated payment records, and contributed to portfolio growth by analyzing financial statements to identify key opportunities.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GEO DIVIDER 2 -->
+<div class="geo-divider">
+  <div class="geo-circle" style="width:220px;height:220px;top:5%;left:10%"></div>
+  <div class="geo-circle" style="width:320px;height:320px;bottom:0;right:10%"></div>
+  <div class="geo-hatch" style="width:280px;height:200px;bottom:15%;left:35%;transform:rotate(3deg)"></div>
+  <div class="quote rv">
+    <p>"I am driven by the belief that every dataset has a story waiting to be told — and telling it well can change decisions, lives, and futures."</p>
+    <cite>— Nusrat Jahan</cite>
+  </div>
+</div>
+
+<div class="line-sep"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label rv">Selected Projects</div>
+    <div class="section-title rv">Things I've<br>built</div>
+    <div class="proj-grid">
+      <div class="proj rv d1">
+        <div class="proj-type">Scrollytelling &bull; Data Story</div>
+        <h3>AI Exposure & Housing Affordability in Oshawa</h3>
+        <p>Investigating how AI disruption and rising housing costs impact middle-aged workers. Real human stories combined with interactive data visualizations.</p>
+        <div class="proj-tags"><span>Figma</span><span>Flourish</span><span>Statistics Canada</span><span>Stanford HAI</span></div>
+        <div class="proj-links"><a href="https://nj-scrollytelling-ai-in-oshawa-story.figma.site/" target="_blank">Live Site &rarr;</a><a href="https://github.com/nusratjahan73/ai-oshawa-scrollytelling-datastory" target="_blank">GitHub &rarr;</a></div>
+      </div>
+      <div class="proj rv d2">
+        <div class="proj-type">Scrollytelling &bull; Creative</div>
+        <h3>Hours That Matter: ER Deaths in Canada</h3>
+        <p>A deeply personal storyboard about Canadians lost to emergency room wait times. Real stories, animated panels, interactive data charts.</p>
+        <div class="proj-tags"><span>Figma</span><span>Miro</span><span>News Research</span><span>Storytelling</span></div>
+        <div class="proj-links"><a href="https://nj-scrollytelling-er-story.figma.site/" target="_blank">Live Site &rarr;</a><a href="https://github.com/nusratjahan73/scrollytelling-er-deaths-canada" target="_blank">GitHub &rarr;</a></div>
+      </div>
+      <div class="proj rv d3">
+        <div class="proj-type">Interactive Visualization &bull; Python</div>
+        <h3>Nightingale's Coxcomb Redesign</h3>
+        <p>Redesigned the famous 1858 diagram into an interactive dashboard with animated polar charts, click-to-compare, and trend analysis.</p>
+        <div class="proj-tags"><span>Python</span><span>Plotly</span><span>Dash</span><span>Jupyter</span></div>
+        <div class="proj-links"><a href="https://github.com/nusratjahan73/nightingale-coxcomb-redesign-project" target="_blank">GitHub &rarr;</a></div>
+      </div>
+      <div class="proj rv d4">
+        <div class="proj-type">Infographic &bull; Healthcare AI</div>
+        <h3>AI in Action: ChartWatch AI</h3>
+        <p>Persuasive infographic on how ChartWatch AI reduced unexpected hospital deaths by 26%. Three iterations from brainstorm to final design.</p>
+        <div class="proj-tags"><span>Canva</span><span>Healthcare</span><span>Data Research</span></div>
+        <div class="proj-links"><a href="https://github.com/nusratjahan73/persuasive-infographic-chartwatch-ai" target="_blank">GitHub &rarr;</a></div>
+      </div>
+      <div class="proj rv d5">
+        <div class="proj-type">Dashboard &bull; Business Intelligence</div>
+        <h3>Sales Report — Power BI</h3>
+        <p>Interactive dashboard analyzing sales across products, categories, and countries with dynamic filters.</p>
+        <div class="proj-tags"><span>Power BI</span><span>Data Modeling</span><span>DAX</span></div>
+        <div class="proj-links"><a href="https://github.com/nusratjahan73/first-pbi-project" target="_blank">GitHub &rarr;</a></div>
+      </div>
+      <div class="proj rv d6">
+        <div class="proj-type">Practice &bull; Python Libraries</div>
+        <h3>Data Viz Libraries Exploration</h3>
+        <p>Jupyter Notebooks exploring Matplotlib, Seaborn, Bokeh, Plotly, Altair, and Dash.</p>
+        <div class="proj-tags"><span>Python</span><span>Matplotlib</span><span>Seaborn</span><span>Plotly</span><span>Bokeh</span></div>
+        <div class="proj-links"><a href="https://github.com/nusratjahan73/dataviz-python-libraries-practice" target="_blank">GitHub &rarr;</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="line-sep"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <div class="section-label rv">Education</div>
+    <div class="section-title rv">Academic<br>background</div>
+    <div class="edu rv d1"><h3>Master of Business Analytics and AI</h3><div class="sch">Ontario Tech University</div><div class="edt">Jan 2026 — Jan 2027</div><div class="st">In Progress</div></div>
+    <div class="edu rv d2"><h3>B.Sc. — Computer Engineering</h3><div class="sch">Military Institute of Science & Technology (MIST)</div><div class="edt">2013 — 2017</div><div class="st">CGPA: 3.58 &bull; Graduated March 2017</div></div>
+    <div style="margin-top:3.5rem">
+      <div class="section-label rv">Graduate Coursework</div>
+      <div class="course-grid">
+        <div class="cc rv d1"><div class="cc-code">MBAI 5100G</div><h4>Business Analytics</h4></div>
+        <div class="cc rv d2"><div class="cc-code">MBAI 5110G</div><h4>Big Data Systems Design</h4></div>
+        <div class="cc rv d3"><div class="cc-code">MBAI 5200G</div><h4>Ethics & Legal in Analytics/AI</h4></div>
+        <div class="cc rv d4"><div class="cc-code">MBAI 5300G</div><h4>Programming & Data Processing</h4></div>
+        <div class="cc rv d1"><div class="cc-code">MBAI 5310G</div><h4>AI Programming</h4></div>
+        <div class="cc rv d2"><div class="cc-code">MBAI 5400G</div><h4>Visualization & Storytelling</h4></div>
+        <div class="cc rv d3"><div class="cc-code">MBAI 5410G</div><h4>Digital Transformation</h4></div>
+        <div class="cc rv d4"><div class="cc-code">MBAI 5500G</div><h4>Security, Privacy & Trust in AI</h4></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="line-sep"></div>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="container">
+    <div class="section-label rv">Get In Touch</div>
+    <div class="section-title rv">Let's connect</div>
+    <p class="contact-desc rv">Actively seeking Internship, Co-op, or Part-time opportunities in Data Analytics, AI, Data Visualization, and Business Analytics & Intelligence.</p>
+    <div class="contact-links rv">
+      <a href="mailto:nusrat.jahan4@ontariotechu.net">Email</a>
+      <a href="https://www.linkedin.com/in/nusratjahan73/" target="_blank">LinkedIn</a>
+      <a href="https://github.com/nusratjahan73" target="_blank">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>&copy; 2026 Nusrat Jahan</footer>
+
+<script>
+// === FLOATING DATA ICONS (Canvas) ===
+const C=document.getElementById('iconCanvas'),X=C.getContext('2d');
+let W,H;function resize(){W=C.width=innerWidth;H=C.height=innerHeight}resize();addEventListener('resize',resize);
+
+const icons=[
+  // bar chart
+  c=>{c.strokeRect(0,0,4,12);c.strokeRect(6,4,4,8);c.strokeRect(12,2,4,10);c.strokeRect(18,6,4,6)},
+  // pie
+  c=>{c.beginPath();c.arc(10,10,9,0,Math.PI*2);c.stroke();c.beginPath();c.moveTo(10,10);c.lineTo(10,1);c.arc(10,10,9,-.5*Math.PI,.7*Math.PI);c.closePath();c.stroke()},
+  // code brackets
+  c=>{c.beginPath();c.moveTo(6,0);c.lineTo(0,8);c.lineTo(6,16);c.stroke();c.beginPath();c.moveTo(14,0);c.lineTo(20,8);c.lineTo(14,16);c.stroke()},
+  // database
+  c=>{c.beginPath();c.ellipse(10,4,9,4,0,0,Math.PI*2);c.stroke();c.beginPath();c.moveTo(1,4);c.lineTo(1,16);c.stroke();c.beginPath();c.moveTo(19,4);c.lineTo(19,16);c.stroke();c.beginPath();c.ellipse(10,16,9,4,0,0,Math.PI);c.stroke();c.beginPath();c.ellipse(10,10,9,3,0,0,Math.PI);c.stroke()},
+  // line chart
+  c=>{c.beginPath();c.moveTo(0,14);c.lineTo(5,8);c.lineTo(10,11);c.lineTo(15,3);c.lineTo(20,6);c.stroke()},
+  // magnifier
+  c=>{c.beginPath();c.arc(8,8,7,0,Math.PI*2);c.stroke();c.beginPath();c.moveTo(13,13);c.lineTo(19,19);c.stroke()},
+  // brain/AI
+  c=>{c.beginPath();c.arc(7,8,6,0.5,5.8);c.stroke();c.beginPath();c.arc(13,8,6,-2.3,2.6);c.stroke();c.beginPath();c.moveTo(10,2);c.lineTo(10,18);c.stroke()},
+  // table grid
+  c=>{c.strokeRect(0,0,20,16);c.beginPath();c.moveTo(0,5);c.lineTo(20,5);c.stroke();c.beginPath();c.moveTo(0,10);c.lineTo(20,10);c.stroke();c.beginPath();c.moveTo(7,0);c.lineTo(7,16);c.stroke()},
+];
+
+const colors=['rgba(154,140,152,','rgba(201,173,167,','rgba(242,233,228,','rgba(74,78,105,'];
+class Icon{
+  constructor(){this.init();this.y=Math.random()*H}
+  init(){this.x=Math.random()*W;this.y=-30;this.s=.15+Math.random()*.35;this.icon=icons[Math.floor(Math.random()*icons.length)];this.op=.08+Math.random()*.12;this.rot=Math.random()*Math.PI*2;this.rotS=(Math.random()-.5)*.003;this.dx=(Math.random()-.5)*.2;this.col=colors[Math.floor(Math.random()*colors.length)]}
+  update(){this.y+=this.s;this.x+=this.dx;this.rot+=this.rotS;if(this.y>H+40)this.init()}
+  draw(){X.save();X.translate(this.x,this.y);X.rotate(this.rot);X.scale(2,2);X.strokeStyle=this.col+this.op+')';X.lineWidth=1.2;X.lineCap='round';X.lineJoin='round';this.icon(X);X.restore()}
+}
+const ic=[];for(let i=0;i<50;i++)ic.push(new Icon());
+function loop(){X.clearRect(0,0,W,H);ic.forEach(i=>{i.update();i.draw()});requestAnimationFrame(loop)}
+loop();
+
+// === SCROLL REVEAL ===
+const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('on')})},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>obs.observe(el));
+
+// === SCROLL PROGRESS ===
+addEventListener('scroll',()=>{
+  const t=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-innerHeight;
+  document.getElementById('prog').style.width=(t/h*100)+'%';
+  document.getElementById('nav').classList.toggle('scrolled',t>80);
+});
+</script>
+</body>
+</html>
