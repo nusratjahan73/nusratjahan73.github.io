@@ -93,6 +93,7 @@ nav .nav-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 2rem;
 }
 
 nav .logo {
@@ -104,6 +105,7 @@ nav .logo {
   text-transform: uppercase;
   font-weight: 700;
   transition: color 0.3s;
+  white-space: nowrap;
 }
 
 nav.scrolled .logo {
@@ -998,10 +1000,55 @@ footer {
 }
 
 /* RESPONSIVE */
+@media (max-width: 1024px) {
+  nav {
+    padding: 1.5rem 2rem;
+  }
+  nav.scrolled {
+    padding: 1rem 2rem;
+  }
+  nav .logo {
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+  }
+  nav .nav-links {
+    gap: 2rem;
+  }
+  nav .nav-links a {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+}
+
+@media (max-width: 900px) {
+  nav {
+    padding: 1.2rem 1.5rem;
+  }
+  nav.scrolled {
+    padding: 1rem 1.5rem;
+  }
+  nav .logo {
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+  }
+  nav .nav-links {
+    gap: 1.25rem;
+  }
+  nav .nav-links a {
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+  }
+}
+
 @media (max-width: 768px) {
   .about-grid {
     grid-template-columns: 1fr;
     gap: 3rem;
+  }
+  
+  nav .logo {
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
   }
   
   nav .nav-links {
@@ -1111,7 +1158,7 @@ footer {
       <div class="about-text rv-l">
         <p>Currently pursuing Master's in Business Analytics and AI at Ontario Tech University, building upon a 4-year degree in Computer Science Engineering from MIST.</p>
         <p>My technical toolkit includes Advanced Python with Pandas, Matplotlib, and Plotly for real-world data manipulation, visualization, and processing. Proficient in Power BI and Tableau for comprehensive business intelligence and data-driven decision-making.</p>
-        <p>Previously spent several years in the financial sector at Laurentian Bank, developing a rigorous approach to data reconciliation, financial modeling, and risk assessment. Now applying this analytical background to AI and Data Science.</p>
+        <p>Previously spent several years in the financial sector, most recently as a Payment Solution Advisor at Propel Holdings Inc. and before that as an Accounting Analyst at Laurentian Bank, developing a rigorous approach to data reconciliation, financial modeling, and risk assessment. Now applying this analytical background to AI and Data Science.</p>
       </div>
       <div class="rv-r">
         <div class="section-label" style="margin-bottom: 1rem;">Technical Skills</div>
@@ -1158,6 +1205,20 @@ footer {
     <div class="exp rv d1">
       <div class="exp-top">
         <div>
+          <h3>Payment Solution Advisor</h3>
+          <div class="co">Propel Holdings Inc.</div>
+          <div class="loc">Toronto, ON &bull; Hybrid</div>
+        </div>
+        <div>
+          <div class="dt">Jun 2025 — Apr 2026</div>
+          <div class="dur">11 months</div>
+        </div>
+      </div>
+      <p>Analyzed monthly client portfolio data in Excel using Pivot Tables, VLOOKUP, and filters to segment accounts by payment history and default risk. Partnered with the data analytics team bi-monthly to review product-level trends, set collection targets, and prioritize high-impact accounts. Translated analytical insights into targeted outbound outreach and data-informed negotiations on open lines of credit, while also supporting inbound calls transferred from Customer Service and Default teams.</p>
+    </div>
+    <div class="exp rv d2">
+      <div class="exp-top">
+        <div>
           <h3>Accounting Analyst</h3>
           <div class="co">Laurentian Bank</div>
           <div class="loc">Toronto, ON &bull; Hybrid</div>
@@ -1169,7 +1230,7 @@ footer {
       </div>
       <p>Analyzed trends and customer behaviors to deliver actionable insights for Directors and Controllers. Investigated complex account discrepancies across multiple systems. Managed massive volumes of transactional data ensuring strict AML compliance. Identified process inefficiencies and enhanced operational accuracy.</p>
     </div>
-    <div class="exp rv d2">
+    <div class="exp rv d3">
       <div class="exp-top">
         <div>
           <h3>Financial Customer Service Representative</h3>
@@ -1183,7 +1244,7 @@ footer {
       </div>
       <p>Conducted economic risk assessments for loan approvals and investigated suspicious transactions to prevent fraud. Utilized Excel and advanced functions to generate branch-specific financial documents, improving data processing efficiency.</p>
     </div>
-    <div class="exp rv d3">
+    <div class="exp rv d4">
       <div class="exp-top">
         <div>
           <h3>Team Member</h3>
@@ -1197,7 +1258,7 @@ footer {
       </div>
       <p>Delivered fast, friendly customer service in a high-volume environment. Managed orders, maintained quality standards, and ensured smooth daily operations.</p>
     </div>
-    <div class="exp rv d4">
+    <div class="exp rv d5">
       <div class="exp-top">
         <div>
           <h3>Officer in Retail Account Services</h3>
