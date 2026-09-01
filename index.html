@@ -242,6 +242,29 @@ nav.scrolled .nav-links a:hover {
   box-shadow: 0 10px 30px rgba(150, 122, 161, 0.3);
 }
 
+.hero-badges {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 4rem;
+}
+
+.hero-badges .hero-status {
+  margin-bottom: 0;
+}
+
+.hero-status.pr {
+  border-color: var(--navy);
+  color: var(--navy);
+}
+
+.hero-status.pr:hover {
+  background: var(--navy);
+  color: var(--cream);
+  box-shadow: 0 10px 30px rgba(25, 42, 81, 0.3);
+}
+
 .scroll-prompt {
   opacity: 0;
   animation: fadeIn 1s ease forwards 1.8s;
@@ -1128,7 +1151,11 @@ footer {
   <h1>NUSRAT<br>JAHAN</h1>
   <div class="hero-line"></div>
   <p class="hero-sub">Data Visualization &bull; Business Intelligence &bull; AI &bull; Storytelling</p>
-  <div class="hero-status">Open to Internship, Co-op & Part-time</div>
+  <!-- <div class="hero-status">Open to Internship, Co-op & Full-Time</div> -->
+   <div class="hero-badges">
+    <div class="hero-status">Open to Internship, Co-op & Full-Time</div>
+    <div class="hero-status pr" style="font-size: 0.65rem;">Work Authorization Status : Permanent Resident of Canada</div>
+  </div>
   <div class="scroll-prompt">
     <p>Scroll to explore</p>
     <div class="mouse"></div>
@@ -1451,7 +1478,8 @@ footer {
   <div class="container">
     <div class="section-label rv">Get In Touch</div>
     <div class="section-title rv">Let's connect</div>
-    <p class="contact-desc rv">Actively seeking Internship, Co-op, or Part-time opportunities in Data Analytics, AI, Data Visualization, and Business Analytics & Intelligence.</p>
+    <p class="contact-desc rv">Actively seeking Internship, Co-op, or Full-Time opportunities in Data Analytics, AI, Data Visualization, and Business Analytics & Intelligence.</p>
+    <p class="contact-desc rv">As a Permanent Resident of Canada, I can work for any employer with no permit required and no restriction on hours.</p>
     <div class="contact-links rv">
       <a href="mailto:nusrat.jahan4@ontariotechu.net">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
