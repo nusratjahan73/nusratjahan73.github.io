@@ -1128,6 +1128,32 @@ footer {
     padding: 0 1.5rem;
   }
 }
+
+/* Frosted nav override */
+nav.scrolled {
+  background: rgba(245, 230, 232, 0.75);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border-bottom: 1px solid rgba(150, 122, 161, 0.25);
+  box-shadow: 0 8px 32px rgba(25, 42, 81, 0.06);
+}
+
+nav.scrolled .logo {
+  color: var(--navy);
+}
+
+nav.scrolled .nav-links a {
+  color: var(--navy);
+}
+
+nav.scrolled .nav-links a::after {
+  background: var(--purple);
+}
+
+nav.scrolled .nav-links a:hover {
+  color: var(--purple);
+}
+
 </style>
 </head>
 <body>
