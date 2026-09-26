@@ -3,1901 +3,362 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nusrat Jahan — Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --cream: #F5E6E8;
-  --purple: #967AA1;
-  --navy: #192A51;
-  --purple-light: rgba(150, 122, 161, 0.1);
-  --purple-trans: rgba(150, 122, 161, 0.6);
-  --navy-trans: rgba(25, 42, 81, 0.95);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: var(--cream);
-  color: var(--navy);
-  line-height: 1.7;
-  overflow-x: hidden;
-}
-
-::selection {
-  background: var(--purple);
-  color: var(--cream);
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-/* PROGRESS BAR */
-.progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--purple), var(--navy));
-  z-index: 300;
-  width: 0%;
-  transition: width 0.1s ease;
-}
-
-/* FLOATING PARTICLES */
-#particleCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.4;
-}
-
-/* NAVIGATION */
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: 2rem 3rem;
-  z-index: 200;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-nav.scrolled {
-  background: var(--navy-trans);
-  backdrop-filter: blur(20px);
-  padding: 1.2rem 3rem;
-  border-bottom: 1px solid rgba(150, 122, 161, 0.2);
-  box-shadow: 0 10px 40px rgba(25, 42, 81, 0.1);
-}
-
-nav .nav-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
-}
-
-nav .logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.2rem;
-  color: var(--navy);
-  text-decoration: none;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  font-weight: 700;
-  transition: color 0.3s;
-  white-space: nowrap;
-}
-
-nav.scrolled .logo {
-  color: var(--cream);
-}
-
-nav .nav-links {
-  display: flex;
-  gap: 3rem;
-  list-style: none;
-}
-
-nav .nav-links a {
-  color: var(--navy);
-  text-decoration: none;
-  font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transition: all 0.3s;
-  position: relative;
-  padding-bottom: 0.3rem;
-}
-
-nav.scrolled .nav-links a {
-  color: var(--purple);
-}
-
-nav .nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--purple);
-  transition: width 0.3s ease;
-}
-
-nav .nav-links a:hover::after {
-  width: 100%;
-}
-
-nav.scrolled .nav-links a::after {
-  background: var(--cream);
-}
-
-nav.scrolled .nav-links a:hover {
-  color: var(--cream);
-}
-
-/* HERO SECTION */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  background: linear-gradient(135deg, var(--cream) 0%, rgba(150, 122, 161, 0.15) 100%);
-}
-
-.hero-label {
-  font-size: 0.75rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--purple);
-  margin-bottom: 2rem;
-  opacity: 0;
-  animation: fadeIn 1s ease forwards 0.5s;
-  font-weight: 600;
-}
-
-.hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 8vw, 6rem);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  margin-bottom: 2rem;
-  padding: 0.5rem 0;
-  color: var(--navy);
-  opacity: 0;
-  animation: scaleIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.3s;
-  background: linear-gradient(135deg, var(--navy) 0%, var(--purple) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-line {
-  width: 100px;
-  height: 3px;
-  background: var(--purple);
-  margin: 2rem auto;
-  opacity: 0;
-  animation: expandLine 1s ease forwards 1s;
-  border-radius: 2px;
-}
-
-.hero-sub {
-  font-size: 1.1rem;
-  color: var(--navy);
-  font-weight: 400;
-  letter-spacing: 0.05em;
-  max-width: none;
-  white-space: nowrap;
-  margin: 0 auto 1.5rem;
-  opacity: 0;
-  animation: fadeIn 1s ease forwards 1.2s;
-}
-
-@media (max-width: 820px) {
-  .hero-sub { white-space: normal; max-width: 600px; }
-}
-
-.hero-status {
-  display: inline-block;
-  padding: 0.8rem 2rem;
-  border: 2px solid var(--purple);
-  color: var(--purple);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin-bottom: 4rem;
-  opacity: 0;
-  animation: fadeIn 1s ease forwards 1.4s;
-  border-radius: 50px;
-  transition: all 0.3s;
-}
-
-.hero-status:hover {
-  background: var(--purple);
-  color: var(--cream);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(150, 122, 161, 0.3);
-}
-
-.hero-badges {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 4rem;
-}
-
-.hero-badges .hero-status {
-  margin-bottom: 0;
-}
-
-.hero-status.pr {
-  border-color: var(--navy);
-  color: var(--navy);
-}
-
-.hero-status.pr:hover {
-  background: var(--navy);
-  color: var(--cream);
-  box-shadow: 0 10px 30px rgba(25, 42, 81, 0.3);
-}
-
-.scroll-prompt {
-  opacity: 0;
-  animation: fadeIn 1s ease forwards 1.8s;
-  text-align: center;
-}
-
-.scroll-prompt p {
-  font-size: 0.8rem;
-  letter-spacing: 0.2em;
-  color: var(--purple);
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-.scroll-prompt .mouse {
-  width: 28px;
-  height: 45px;
-  border: 2px solid var(--purple);
-  border-radius: 15px;
-  margin: 0 auto;
-  position: relative;
-}
-
-.scroll-prompt .mouse::after {
-  content: '';
-  width: 4px;
-  height: 10px;
-  background: var(--purple);
-  border-radius: 2px;
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: mouseScroll 2s infinite;
-}
-
-@keyframes mouseScroll {
-  0% { opacity: 1; top: 8px; }
-  100% { opacity: 0; top: 25px; }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.85) translateY(40px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-@keyframes expandLine {
-  from { width: 0; opacity: 0; }
-  to { width: 100px; opacity: 1; }
-}
-
-/* STICKY SECTION TITLE */
-.sticky-title {
-  position: sticky;
-  top: 120px;
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 6vw, 5rem);
-  font-weight: 900;
-  color: var(--navy);
-  opacity: 0.08;
-  z-index: 0;
-  margin-bottom: -5rem;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  pointer-events: none;
-}
-
-/* GEOMETRIC DIVIDER */
-.geo-divider {
-  position: relative;
-  min-height: 500px;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: linear-gradient(180deg, transparent 0%, var(--purple-light) 50%, transparent 100%);
-  padding: 6rem 0;
-}
-
-.geo-circle {
-  position: absolute;
-  border: 2px solid var(--purple);
-  opacity: 0.15;
-  border-radius: 50%;
-  transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.geo-square {
-  position: absolute;
-  border: 2px solid var(--purple);
-  opacity: 0.1;
-  transform: rotate(45deg);
-  transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.geo-divider .quote {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  max-width: 800px;
-  padding: 3rem;
-  background: rgba(245, 230, 232, 0.9);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(25, 42, 81, 0.1);
-  border: 1px solid rgba(150, 122, 161, 0.2);
-}
-
-.geo-divider .quote p {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.3rem, 3vw, 1.8rem);
-  font-style: italic;
-  color: var(--navy);
-  line-height: 1.6;
-  font-weight: 500;
-}
-
-.geo-divider .quote cite {
-  display: block;
-  margin-top: 1.5rem;
-  font-size: 0.9rem;
-  color: var(--purple);
-  font-style: normal;
-  letter-spacing: 0.15em;
-  font-weight: 600;
-}
-
-/* SECTIONS */
-section {
-  padding: 8rem 0;
-  position: relative;
-  z-index: 1;
-}
-
-.section-label {
-  font-size: 0.7rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--purple);
-  margin-bottom: 1rem;
-  font-weight: 600;
-}
-
-.section-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  margin-bottom: 4rem;
-  line-height: 1.1;
-  color: var(--navy);
-  font-weight: 900;
-  letter-spacing: -0.02em;
-}
-
-/* REVEAL ANIMATIONS */
-.rv {
-  opacity: 0;
-  transform: translateY(60px);
-  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.rv.on {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.rv-l {
-  opacity: 0;
-  transform: translateX(-60px);
-  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.rv-l.on {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.rv-r {
-  opacity: 0;
-  transform: translateX(60px);
-  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.rv-r.on {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.rv-scale {
-  opacity: 0;
-  transform: scale(0.9);
-  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.rv-scale.on {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.d1 { transition-delay: 0.1s; }
-.d2 { transition-delay: 0.2s; }
-.d3 { transition-delay: 0.3s; }
-.d4 { transition-delay: 0.4s; }
-.d5 { transition-delay: 0.5s; }
-.d6 { transition-delay: 0.6s; }
-
-/* ABOUT */
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem;
-  align-items: start;
-}
-
-.about-text {
-  color: var(--navy);
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.9;
-}
-
-.about-text p {
-  margin-bottom: 1.5rem;
-  opacity: 0.9;
-}
-
-.skills-wrap {
-  margin-top: 2rem;
-}
-
-.skills-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
-}
-
-.skill {
-  padding: 0.6rem 1.3rem;
-  background: white;
-  border: 2px solid var(--purple);
-  color: var(--navy);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: pointer;
-  border-radius: 50px;
-}
-
-.skill:hover {
-  background: var(--purple);
-  color: var(--cream);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(150, 122, 161, 0.3);
-}
-
-/* EXPERIENCE */
-.exp {
-  padding: 2.5rem;
-  background: white;
-  border: 2px solid rgba(150, 122, 161, 0.15);
-  margin-bottom: 2rem;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
-  border-radius: 15px;
-}
-
-.exp::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 5px;
-  height: 0;
-  background: linear-gradient(180deg, var(--purple), var(--navy));
-  transition: height 0.6s ease;
-}
-
-.exp:hover::before {
-  height: 100%;
-}
-
-.exp:hover {
-  border-color: var(--purple);
-  transform: translateX(10px);
-  box-shadow: 0 20px 60px rgba(25, 42, 81, 0.1);
-}
-
-.exp-top {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-bottom: 1.2rem;
-  gap: 1rem;
-}
-
-.exp h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
-  color: var(--navy);
-  font-weight: 700;
-}
-
-.exp .co {
-  color: var(--purple);
-  font-size: 1rem;
-  margin-top: 0.3rem;
-  font-weight: 600;
-}
-
-.exp .loc {
-  color: var(--purple);
-  opacity: 0.6;
-  font-size: 0.85rem;
-  margin-top: 0.2rem;
-}
-
-.exp .dt {
-  color: var(--navy);
-  font-size: 0.9rem;
-  text-align: right;
-  font-weight: 600;
-}
-
-.exp .dur {
-  color: var(--purple);
-  font-size: 0.8rem;
-  text-align: right;
-  opacity: 0.7;
-}
-
-.exp p {
-  color: var(--navy);
-  opacity: 0.8;
-  font-weight: 400;
-  font-size: 0.95rem;
-  line-height: 1.8;
-}
-
-/* PROJECTS */
-.proj-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2rem;
-}
-
-.proj {
-  background: white;
-  border: 2px solid rgba(150, 122, 161, 0.15);
-  padding: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
-  border-radius: 20px;
-}
-
-.proj::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 5px;
-  background: linear-gradient(90deg, var(--purple), var(--navy));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s ease;
-}
-
-.proj:hover::after {
-  transform: scaleX(1);
-}
-
-.proj:hover {
-  border-color: var(--purple);
-  transform: translateY(-10px);
-  box-shadow: 0 25px 70px rgba(25, 42, 81, 0.15);
-}
-
-.proj-type {
-  font-size: 0.65rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--purple);
-  margin-bottom: 1rem;
-  font-weight: 700;
-}
-
-.proj h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
-  color: var(--navy);
-  line-height: 1.3;
-  font-weight: 700;
-}
-
-.proj p {
-  color: var(--navy);
-  opacity: 0.8;
-  font-size: 0.9rem;
-  font-weight: 400;
-  flex-grow: 1;
-  margin-bottom: 1.5rem;
-  line-height: 1.7;
-}
-
-.proj-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.proj-tags span {
-  padding: 0.4rem 0.9rem;
-  background: var(--purple-light);
-  border: 1px solid var(--purple);
-  font-size: 0.7rem;
-  color: var(--purple);
-  letter-spacing: 0.05em;
-  transition: all 0.3s;
-  border-radius: 50px;
-  font-weight: 600;
-}
-
-.proj-tags span:hover {
-  background: var(--purple);
-  color: var(--cream);
-  transform: translateY(-2px);
-}
-
-.proj-links {
-  display: flex;
-  gap: 0.6rem 1.2rem;
-  flex-wrap: wrap;
-}
-
-.proj-links a {
-  font-size: 0.85rem;
-  color: var(--navy);
-  text-decoration: none;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  transition: all 0.3s;
-  position: relative;
-  padding-bottom: 0.2rem;
-}
-
-.proj-links a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--purple);
-  transition: width 0.3s ease;
-}
-
-.proj-links a:hover::after {
-  width: 100%;
-}
-
-.proj-links a:hover {
-  color: var(--purple);
-}
-
-/* EDUCATION */
-.edu {
-  padding: 2.5rem;
-  border-left: 5px solid var(--purple);
-  margin-bottom: 2.5rem;
-  background: white;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(25, 42, 81, 0.05);
-}
-
-.edu:hover {
-  transform: translateX(15px);
-  box-shadow: 0 15px 50px rgba(25, 42, 81, 0.1);
-  border-left-color: var(--navy);
-}
-
-.edu h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.4rem;
-  color: var(--navy);
-  margin-bottom: 0.5rem;
-  font-weight: 700;
-}
-
-.edu .sch {
-  color: var(--purple);
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.edu .edt {
-  color: var(--navy);
-  opacity: 0.6;
-  font-size: 0.9rem;
-  margin-top: 0.3rem;
-}
-
-.edu .st {
-  color: var(--purple);
-  font-size: 0.9rem;
-  margin-top: 0.2rem;
-  font-weight: 500;
-}
-
-.course-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.2rem;
-  margin-top: 2rem;
-}
-
-.cc {
-  padding: 1.8rem;
-  background: white;
-  border: 2px solid rgba(150, 122, 161, 0.15);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 15px;
-}
-
-.cc:hover {
-  border-color: var(--purple);
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(25, 42, 81, 0.1);
-}
-
-.cc-code {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  color: var(--purple);
-  margin-bottom: 0.6rem;
-  font-weight: 600;
-}
-
-.cc h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--navy);
-  line-height: 1.4;
-}
-
-/* CONTACT */
-.contact {
-  text-align: center;
-  padding: 10rem 0;
-  background: linear-gradient(180deg, var(--cream) 0%, rgba(150, 122, 161, 0.1) 100%);
-}
-
-.contact .section-title {
-  margin-bottom: 2rem;
-}
-
-.contact-desc {
-  color: var(--navy);
-  font-weight: 400;
-  margin-bottom: 4rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  font-size: 1.05rem;
-  line-height: 1.8;
-}
-
-.contact-links {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.contact-links a {
-  color: var(--navy);
-  text-decoration: none;
-  font-size: 0.85rem;
-  padding: 1rem 2.5rem;
-  border: 2px solid var(--purple);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-weight: 600;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 50px;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.contact-links a:hover {
-  background: var(--purple);
-  color: var(--cream);
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(150, 122, 161, 0.4);
-}
-
-.contact-links a svg {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
-.contact-links a svg path,
-.contact-links a svg polyline {
-  fill: currentColor;
-}
-
-.contact-links a svg[fill="none"] path,
-.contact-links a svg[fill="none"] polyline {
-  fill: none;
-  stroke: currentColor;
-}
-
-.contact-info-wrapper {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.social-links-wrapper {
-  margin-top: 3rem;
-  text-align: center;
-}
-
-.social-links-wrapper h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
-  color: var(--navy);
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-}
-
-.contact-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.5rem;
-  padding: 1.5rem;
-  background: white;
-  border: 2px solid rgba(150, 122, 161, 0.15);
-  border-radius: 15px;
-  transition: all 0.3s;
-  margin-bottom: 1.2rem;
-}
-
-.contact-item:hover {
-  border-color: var(--purple);
-  transform: translateX(10px);
-  box-shadow: 0 10px 30px rgba(25, 42, 81, 0.1);
-}
-
-.contact-item-icon {
-  width: 50px;
-  height: 50px;
-  background: var(--purple-light);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.contact-item-icon svg {
-  width: 24px;
-  height: 24px;
-  stroke: var(--purple);
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.contact-item-content h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--navy);
-  margin-bottom: 0.3rem;
-}
-
-.contact-item-content a,
-.contact-item-content p {
-  color: var(--purple);
-  text-decoration: none;
-  font-size: 0.95rem;
-  transition: color 0.3s;
-}
-
-.contact-item-content a:hover {
-  color: var(--navy);
-}
-
-.social-links {
-  display: flex;
-  gap: 1.5rem;
-  justify-content: center;
-}
-
-.social-links a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  background: white;
-  border: 2px solid var(--purple);
-  border-radius: 50%;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  color: var(--purple);
-}
-
-.social-links a:hover {
-  background: var(--purple);
-  color: var(--cream);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(150, 122, 161, 0.4);
-}
-
-.social-links svg {
-  width: 24px;
-  height: 24px;
-  fill: currentColor;
-}
-
-/* FOOTER */
-footer {
-  text-align: center;
-  padding: 3rem;
-  color: var(--purple);
-  font-size: 0.8rem;
-  letter-spacing: 0.15em;
-  border-top: 2px solid rgba(150, 122, 161, 0.15);
-  z-index: 1;
-  position: relative;
-  background: white;
-}
-
-.line-sep {
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, var(--purple) 50%, transparent 100%);
-  z-index: 1;
-  position: relative;
-  margin: 4rem 0;
-}
-
-/* RESPONSIVE */
-@media (max-width: 1024px) {
-  nav {
-    padding: 1.5rem 2rem;
-  }
-  nav.scrolled {
-    padding: 1rem 2rem;
-  }
-  nav .logo {
-    font-size: 1rem;
-    letter-spacing: 0.1em;
-  }
-  nav .nav-links {
-    gap: 2rem;
-  }
-  nav .nav-links a {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-  }
-}
-
-@media (max-width: 900px) {
-  nav {
-    padding: 1.2rem 1.5rem;
-  }
-  nav.scrolled {
-    padding: 1rem 1.5rem;
-  }
-  nav .logo {
-    font-size: 0.9rem;
-    letter-spacing: 0.08em;
-  }
-  nav .nav-links {
-    gap: 1.25rem;
-  }
-  nav .nav-links a {
-    font-size: 0.7rem;
-    letter-spacing: 0.05em;
-  }
-}
-
-@media (max-width: 768px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-  
-  nav .logo {
-    font-size: 0.9rem;
-    letter-spacing: 0.08em;
-  }
-  
-  nav .nav-links {
-    gap: 1.5rem;
-  }
-  
-  nav .nav-links a {
-    font-size: 0.7rem;
-  }
-  
-  .proj-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .course-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .exp-top {
-    flex-direction: column;
-  }
-  
-  .exp .dt,
-  .exp .dur {
-    text-align: left;
-  }
-  
-  .geo-divider {
-    min-height: 400px;
-  }
-  
-  .sticky-title {
-    top: 100px;
-    font-size: 2.5rem;
-  }
-  
-  section {
-    padding: 5rem 0;
-  }
-}
-
-@media (max-width: 480px) {
-  nav .nav-links {
-    display: none;
-  }
-  
-  nav {
-    padding: 1.5rem 1.5rem;
-  }
-  
-  .container {
-    padding: 0 1.5rem;
-  }
-}
-
-/* Frosted nav override */
-nav.scrolled {
-  background: rgba(245, 230, 232, 0.75);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border-bottom: 1px solid rgba(150, 122, 161, 0.25);
-  box-shadow: 0 8px 32px rgba(25, 42, 81, 0.06);
-}
-
-nav.scrolled .logo {
-  color: var(--navy);
-}
-
-nav.scrolled .nav-links a {
-  color: var(--navy);
-}
-
-nav.scrolled .nav-links a::after {
-  background: var(--purple);
-}
-
-nav.scrolled .nav-links a:hover {
-  color: var(--purple);
-}
-
-</style>
+<title>Nusrat Jahan | AI, Machine Learning and Data Science</title>
+<meta name="description" content="Nusrat Jahan. Master of Business Analytics and AI student at Ontario Tech University. AI, machine learning, data science and analytics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<canvas id="bg" aria-hidden="true"></canvas>
 
-<div class="progress" id="prog"></div>
-<canvas id="particleCanvas"></canvas>
-
-<nav id="nav">
-  <div class="nav-inner">
-    <a href="#" class="logo">Nusrat Jahan</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+<nav class="nav" id="nav">
+  <a href="#top" class="mono-logo" aria-label="Back to top">NJ</a>
+  <div class="nav-links">
+    <a href="#story">story</a>
+    <a href="#projects">projects</a>
+    <a href="#experience">experience</a>
+    <a href="#contact">contact</a>
   </div>
+  <button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span></button>
 </nav>
 
-<section class="hero">
-  <div class="hero-label">Masters Student &bull; Data &amp; AI Analyst &bull; Business Analytics & Intelligence</div>
-  <h1>NUSRAT<br>JAHAN</h1>
-  <div class="hero-line"></div>
-  <p class="hero-sub">Machine Learning &bull; NLP &bull; Data Visualization &bull; Business Intelligence &bull; Storytelling</p>
-  <!-- <div class="hero-status">Open to Internship, Co-op & Full-Time</div> -->
-   <div class="hero-badges">
-    <div class="hero-status">Open to Internship, Co-op & Full-Time</div>
-    <div class="hero-status pr" style="font-size: 0.65rem;">Work Authorization Status : Permanent Resident of Canada</div>
+<!-- ================= HERO ================= -->
+<div class="hero-wrap" id="heroWrap">
+<header class="hero" id="top">
+  <div class="hero-left">
+    <p class="kicker fit" data-max="13" data-min="10.5"><span class="seg">Artificial Intelligence | Machine Learning</span><span class="sep"> | </span><span class="seg">Data Science | Data Analytics</span></p>
+    <h1 class="serif fit" data-max="118" data-min="40">Nusrat <em>Jahan</em></h1>
+    <p class="hand hero-hand fit" data-max="34" data-min="20">building AI that people can trust</p>
+    <div class="hero-small">
+      <p class="fit" data-max="17" data-min="13" data-group="intro"><span class="seg">Master of Business Analytics and AI student</span> <span class="seg">at Ontario Tech University.</span></p>
+      <p class="fit" data-max="17" data-min="13" data-group="intro"><span class="seg">Permanent Resident of Canada,</span> <span class="seg">open to internships, co-op and full time roles.</span></p>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-ink">See my work</a>
+      <a href="#story" class="btn btn-line">My story</a>
+    </div>
   </div>
-  <div class="scroll-prompt">
-    <p>Scroll to explore</p>
-    <div class="mouse"></div>
-  </div>
-</section>
 
-<!-- GEO DIVIDER 1 -->
-<div class="geo-divider">
-  <div class="geo-circle" style="width: 350px; height: 350px; top: 10%; right: 10%;"></div>
-  <div class="geo-circle" style="width: 200px; height: 200px; bottom: 15%; left: 15%;"></div>
-  <div class="geo-square" style="width: 180px; height: 180px; top: 20%; left: 25%;"></div>
-  <div class="quote rv">
-    <p>"The world is one big data problem."</p>
-    <cite>— Andrew McAfee</cite>
+  <div class="nlp" id="nlp">
+    <span class="pad-label hand">try my model: type a hotel review ✎</span>
+    <p class="nlp-ask mono">Which team should handle it?</p>
+    <div class="nlp-input">
+      <input id="nlpText" type="text" maxlength="160" autocomplete="off" spellcheck="false"
+        aria-label="Type a hotel review" placeholder="The shower was broken and nobody came to fix it">
+    </div>
+    <div class="nlp-samples" id="nlpSamples" aria-label="Example reviews"></div>
+
+    <div class="nlp-out" id="nlpOut" aria-live="polite">
+      <p class="nlp-team"><span class="arrow">→</span> <span id="nlpTeam">…</span> <span class="nlp-mood mono" id="nlpMood"></span></p>
+      <div class="nlp-bars" id="nlpBars"></div>
+      <p class="nlp-why"><span class="mono small">why:</span> <span id="nlpWhy"></span></p>
+    </div>
+    <p class="nlp-foot mono">a small Naive Bayes model, trained on 80 example reviews, running right here. based on my <a href="#projects">Hotel Review Routing</a> project.</p>
   </div>
+
+  <a href="#story" class="scroll-hint hand">scroll, there is a story ↓</a>
+</header>
 </div>
 
-<div class="line-sep"></div>
+<main>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="container">
-    <div class="sticky-title">ABOUT</div>
-    <div class="section-label rv">About Me</div>
-    <div class="section-title rv">Turning data<br>into decisions</div>
-    <div class="about-grid">
-      <div class="about-text rv-l">
-        <p>Currently pursuing a Master of Business Analytics and AI at Ontario Tech University with a 4.24 GPA on a 4.30 scale, building on a degree in Computer Science and Engineering from MIST.</p>
-        <p>I build machine learning models in Python with scikit-learn for risk prediction, customer segmentation and NLP, and I explain them with clear dashboards and data stories in Power BI, Tableau and Figma. I care about explainable and responsible AI that people can actually trust.</p>
-        <p>Before my master's, I spent over three years in Canadian financial data analysis, risk assessment and investigation, most recently as a Payment Solution Advisor at Propel Holdings Inc. and before that as an Accounting Analyst at Laurentian Bank. Now I bring that business understanding to AI and data science.</p>
+<!-- ================= STORY ================= -->
+<section class="section story" id="story">
+  <div class="wrap">
+    <p class="label">my story</p>
+    <h2 class="serif big">I started from scratch.<br><em>Twice.</em></h2>
+    <p class="lead">When I came to Canada nobody here knew me. No Canadian experience, no network, just a degree from back home and a lot of stubbornness. So I started small and I kept going.</p>
+
+    <div class="timeline" id="timeline">
+      <svg class="tl-line" id="tlLine" preserveAspectRatio="none" aria-hidden="true"><path id="tlPath"/></svg>
+
+      <div class="tl-item reveal">
+        <span class="tl-dot"></span>
+        <p class="tl-when hand">day one</p>
+        <h3>New country, small jobs</h3>
+        <p>I took the jobs I could get and learned how things work here. It was not glamorous, but it taught me to show up and figure things out fast.</p>
       </div>
-      <div class="rv-r">
-        <div class="section-label" style="margin-bottom: 1rem;">Technical Skills</div>
-        <div class="skills-grid">
-          <span class="skill">Python</span>
-          <span class="skill">Pandas</span>
-          <span class="skill">NumPy</span>
-          <span class="skill">Matplotlib</span>
-          <span class="skill">Plotly</span>
-          <span class="skill">SciPy</span>
-          <span class="skill">Dash</span>
-          <span class="skill">scikit-learn</span>
-          <span class="skill">NLTK</span>
-          <span class="skill">spaCy</span>
-          <span class="skill">statsmodels</span>
-          <span class="skill">NetworkX</span>
-          <span class="skill">SQL</span>
-          <span class="skill">Power BI</span>
-          <span class="skill">Tableau</span>
-          <span class="skill">Excel</span>
-          <span class="skill">Figma</span>
-          <span class="skill">Flourish</span>
-          <span class="skill">Canva</span>
-          <span class="skill">Git & GitHub</span>
-        </div>
-        <div class="section-label" style="margin-top: 2rem; margin-bottom: 1rem;">Core Competencies</div>
-        <div class="skills-grid">
-          <span class="skill">Machine Learning</span>
-          <span class="skill">NLP</span>
-          <span class="skill">Explainable AI</span>
-          <span class="skill">Forecasting</span>
-          <span class="skill">Analytical Skills</span>
-          <span class="skill">Financial Analysis</span>
-          <span class="skill">Business Intelligence</span>
-          <span class="skill">Data Management</span>
-          <span class="skill">Risk Assessment</span>
-          <span class="skill">AML Compliance</span>
-          <span class="skill">Due Diligence</span>
-          <span class="skill">Process Optimization</span>
-        </div>
+      <div class="tl-item reveal">
+        <span class="tl-dot"></span>
+        <p class="tl-when hand">2021</p>
+        <h3>Pay2Day, Oshawa</h3>
+        <p>My first finance job in Canada. I checked loan applications for risk and watched out for fraud and money laundering.</p>
       </div>
+      <div class="tl-item reveal">
+        <span class="tl-dot"></span>
+        <p class="tl-when hand">2022</p>
+        <h3>Laurentian Bank, Toronto</h3>
+        <p>Bigger bank, bigger data. Thousands of transactions a day, and my job was to find the ones that did not match and figure out why.</p>
+      </div>
+      <div class="tl-item reveal">
+        <span class="tl-dot"></span>
+        <p class="tl-when hand">2025</p>
+        <h3>Propel Holdings, Toronto</h3>
+        <p>500 to 700 loan accounts every month. I sorted them by who was likely to default so we called the right people first. All by hand, in Excel.</p>
+      </div>
+      <div class="morph reveal" id="morph">
+        <span class="pad-label hand">then something changed</span>
+        <p class="sent" id="sent">I used to make these decisions by hand. Now I teach machines to.</p>
+        <p class="morph-foot mono">human judgment <b>+</b> machine scale</p>
+      </div>
+
+      <div class="tl-item reveal now">
+        <span class="tl-dot"></span>
+        <p class="tl-when hand">2026</p>
+        <h3>Starting again, in AI</h3>
+        <p>Somewhere in those spreadsheets I kept asking, why can a machine not learn this? So I went back to school. Now I am doing my Master of Business Analytics and AI at Ontario Tech, and I build the models that can do the work I used to do by hand.</p>
+      </div>
+      <div class="tl-item reveal next">
+        <span class="tl-dot"></span>
+        <p class="tl-when hand">next</p>
+        <h3>My next role</h3>
+        <p>I am looking for roles in AI, machine learning and data science, and I would love data analytics and business intelligence work too. I want to help teams use AI to automate slow, manual work, and build it so people can rely on it. Lately I am most excited about automating supply chain analytics, where forecasting and machine learning can take the guesswork out of ordering and inventory.</p>
+      </div>
+    </div>
+
+    <div class="story-end reveal">
+      <p>People ask me why I went back to school after all that. The answer is simple. I love a challenge, and this is what I really want to do. Starting over is scary, but I did it once and it worked. This time I am doing it for my passion, and that makes me really happy.</p>
+      <p class="hand sign">Nusrat</p>
     </div>
   </div>
 </section>
 
-<div class="line-sep"></div>
+<!-- ================= PROJECTS ================= -->
+<section class="section projects" id="projects">
+  <div class="wrap">
+    <p class="label">projects</p>
+    <h2 class="serif big">Things I have <em>built</em></h2>
+    <div class="filters" role="group" aria-label="Filter projects">
+      <button class="chip on" data-f="all">All</button>
+      <button class="chip" data-f="ai">AI and ML</button>
+      <button class="chip" data-f="bi">Data and BI</button>
+      <button class="chip" data-f="story">Visualization</button>
+    </div>
 
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="container">
-    <div class="sticky-title">EXPERIENCE</div>
-    <div class="section-label rv">Professional Experience</div>
-    <div class="section-title rv">Where I've<br>worked</div>
-    <div class="exp rv d1">
-      <div class="exp-top">
-        <div>
-          <h3>Payment Solution Advisor</h3>
-          <div class="co">Propel Holdings Inc.</div>
-          <div class="loc">Toronto, ON &bull; Hybrid</div>
-        </div>
-        <div>
-          <div class="dt">Jun 2025 — Apr 2026</div>
-          <div class="dur">11 months</div>
-        </div>
-      </div>
-      <p>Analyzed monthly client portfolio data in Excel using Pivot Tables, VLOOKUP, and filters to segment accounts by payment history and default risk. Partnered with the data analytics team twice a month to review product-level trends, set collection targets, and prioritize high-impact accounts. Translated analytical insights into targeted outbound outreach and data-informed negotiations on open lines of credit, while also supporting inbound calls transferred from Customer Service and Default teams.</p>
-    </div>
-    <div class="exp rv d2">
-      <div class="exp-top">
-        <div>
-          <h3>Accounting Analyst</h3>
-          <div class="co">Laurentian Bank</div>
-          <div class="loc">Toronto, ON &bull; Hybrid</div>
-        </div>
-        <div>
-          <div class="dt">Oct 2022 — Oct 2024</div>
-          <div class="dur">2 years 1 month</div>
-        </div>
-      </div>
-      <p>Analyzed trends and customer behaviors to deliver actionable insights for Directors and Controllers. Investigated complex account discrepancies across multiple systems. Managed massive volumes of transactional data ensuring strict AML compliance. Identified process inefficiencies and enhanced operational accuracy.</p>
-    </div>
-    <div class="exp rv d3">
-      <div class="exp-top">
-        <div>
-          <h3>Financial Customer Service Representative</h3>
-          <div class="co">PAY2DAY Inc.</div>
-          <div class="loc">Oshawa, ON &bull; On-site</div>
-        </div>
-        <div>
-          <div class="dt">Sep 2021 — Sep 2022</div>
-          <div class="dur">1 year 1 month</div>
-        </div>
-      </div>
-      <p>Conducted economic risk assessments for loan approvals and investigated suspicious transactions to prevent fraud. Utilized Excel and advanced functions to generate branch-specific financial documents, improving data processing efficiency.</p>
-    </div>
-    <div class="exp rv d4">
-      <div class="exp-top">
-        <div>
-          <h3>Team Member</h3>
-          <div class="co">Tim Hortons</div>
-          <div class="loc">Whitby, ON &bull; On-site</div>
-        </div>
-        <div>
-          <div class="dt">Mar 2021 — Sep 2021</div>
-          <div class="dur">7 months</div>
-        </div>
-      </div>
-      <p>Delivered fast, friendly customer service in a high-volume environment. Managed orders, maintained quality standards, and ensured smooth daily operations.</p>
-    </div>
-    <div class="exp rv d5">
-      <div class="exp-top">
-        <div>
-          <h3>Officer, Retail Banking</h3>
-          <div class="co">Brac Bank Limited</div>
-          <div class="loc">Dhaka, Bangladesh &bull; On-site</div>
-        </div>
-        <div>
-          <div class="dt">Jul 2019 — Jan 2021</div>
-          <div class="dur">1 year 7 months</div>
-        </div>
-      </div>
-      <p>Led the department in volume of accounts processed. Verified KYC compliance, validated payment records, and contributed to portfolio growth by analyzing financial statements to identify key opportunities.</p>
-    </div>
-  </div>
-</section>
-
-<!-- GEO DIVIDER 2 -->
-<div class="geo-divider">
-  <div class="geo-circle" style="width: 280px; height: 280px; top: 5%; left: 8%;"></div>
-  <div class="geo-circle" style="width: 400px; height: 400px; bottom: 0; right: 5%;"></div>
-  <div class="geo-square" style="width: 200px; height: 200px; bottom: 20%; left: 40%;"></div>
-  <div class="quote rv">
-    <p>"I am driven by the belief that every dataset has a story waiting to be told — and telling it well can change decisions, lives, and futures."</p>
-    <cite>— Nusrat Jahan</cite>
-  </div>
-</div>
-
-<div class="line-sep"></div>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="container">
-    <div class="sticky-title">PROJECTS</div>
-    <div class="section-label rv">Selected Projects</div>
-    <div class="section-title rv">Things I've<br>built</div>
-    <div class="proj-grid">
-      <div class="proj rv d1">
-        <div class="proj-type">Machine Learning &bull; Risk Prediction</div>
+    <div class="grid" id="grid">
+      <article class="card reveal" data-cat="ai">
+        <span class="num hand">01</span>
+        <p class="tag">Machine learning | Risk prediction</p>
         <h3>Risk Prediction Models</h3>
-        <p>My first model hit 93% accuracy but caught zero high risk customers, so I fixed the class imbalance and lifted recall from 0 to 50%. Also built Decision Trees for supplier delays (85% recall) and hotel cancellations with fairness checks.</p>
-        <div class="proj-tags">
-          <span>Python</span>
-          <span>scikit-learn</span>
-          <span>Classification</span>
+        <p>My first model scored 93% accuracy and still missed every high risk customer. I fixed the class imbalance, compared it with an SVM and lifted recall from 0 to 50%. I also built a Decision Tree that catches 85% of late supplier orders, and a hotel cancellation model with fairness checks.</p>
+        <p class="tools">Python · scikit-learn · Logistic Regression · SVM · Decision Trees</p>
+        <div class="links">
+          <a href="https://github.com/nusratjahan73/MBAI5310G-AI-Programming-NusratJahan/tree/main/assignments/week-03-ML-Comparison-with-SVM/financial-risk-investment-data-a3" target="_blank" rel="noopener">Investment →</a>
+          <a href="https://github.com/nusratjahan73/MBAI5310G-AI-Programming-NusratJahan/tree/main/assignments/week-04-Decsion-Tree-Business-Interpretation/procurepro-supplier-data-a4" target="_blank" rel="noopener">Supplier →</a>
+          <a href="https://github.com/nusratjahan73/MBAI5310G-AI-Programming-NusratJahan/tree/main/assignments/week-06-Evaluation-Explainability-Fairness/hotel-booking-data-a6" target="_blank" rel="noopener">Hotel →</a>
         </div>
-        <div class="proj-links">
-          <a href="https://github.com/nusratjahan73/MBAI5310G-AI-Programming-NusratJahan/tree/main/assignments/week-03-ML-Comparison-with-SVM/financial-risk-investment-data-a3" target="_blank">Investment →</a>
-          <a href="https://github.com/nusratjahan73/MBAI5310G-AI-Programming-NusratJahan/tree/main/assignments/week-04-Decsion-Tree-Business-Interpretation/procurepro-supplier-data-a4" target="_blank">Supplier →</a>
-          <a href="https://github.com/nusratjahan73/MBAI5310G-AI-Programming-NusratJahan/tree/main/assignments/week-06-Evaluation-Explainability-Fairness/hotel-booking-data-a6" target="_blank">Hotel →</a>
-        </div>
-      </div>
-      <div class="proj rv d2">
-        <div class="proj-type">Machine Learning &bull; Clustering</div>
-        <h3>Return Risk Customer Segmentation</h3>
-        <p>Used K-Means on 450 online orders to find why returns were high. Found a High Return Risk group where every order was returned, tied to the deepest discounts, and a loyal group with only a 3% return rate, with an action plan for each.</p>
-        <div class="proj-tags">
-          <span>Python</span>
-          <span>scikit-learn</span>
-          <span>K-Means</span>
-          <span>PCA</span>
-        </div>
-        <div class="proj-links">
-          <a href="https://github.com/nusratjahan73/MBAI5310G-AI-Programming-NusratJahan/tree/main/assignments/week-05-Unsupervised-Learning-Pattern-Discovery/product-return-risk-data-a5" target="_blank">GitHub →</a>
-        </div>
-      </div>
-      <div class="proj rv d3">
-        <div class="proj-type">NLP &bull; Text Classification</div>
-        <h3>Hotel Review Routing with NLP</h3>
-        <p>Cleaned, tokenized and lemmatized 120 guest reviews, built TF-IDF features and trained a Naive Bayes classifier that sends each review to the right hotel team so guests get faster replies.</p>
-        <div class="proj-tags">
-          <span>Python</span>
-          <span>NLTK</span>
-          <span>spaCy</span>
-          <span>TF-IDF</span>
-          <span>Naive Bayes</span>
-        </div>
-        <div class="proj-links">
-          <a href="https://github.com/nusratjahan73/MBAI5310G-AI-Programming-NusratJahan/tree/main/assignments/week-08-NLP-Text-Processing/hotel-guest-service-nlp-dataset-a8" target="_blank">GitHub →</a>
-        </div>
-      </div>
-      <div class="proj rv d4">
-        <div class="proj-type">NLP &bull; Network Analysis</div>
-        <h3>Customer Feedback and Franchise Network Analysis</h3>
-        <p>Analyzed telecom reviews with NLTK and a keyword sentiment labeler, then mapped franchise communication as a weighted network, using centrality to find the key branch and PyVis for an interactive map.</p>
-        <div class="proj-tags">
-          <span>Python</span>
-          <span>NLTK</span>
-          <span>NetworkX</span>
-          <span>PyVis</span>
-          <span>Pandas</span>
-        </div>
-        <div class="proj-links">
-          <a href="https://github.com/nusratjahan73/multi-method-data-analysis-with-python" target="_blank">GitHub →</a>
-        </div>
-      </div>
-      <div class="proj rv d5">
-        <div class="proj-type">Interactive Visualization &bull; Python</div>
-        <h3>Nightingale's Coxcomb Redesign</h3>
-        <p>Redesigned the famous 1858 diagram into an interactive dashboard with animated polar charts, click-to-compare, and trend analysis.</p>
-        <div class="proj-tags">
-          <span>Python</span>
-          <span>Plotly</span>
-          <span>Dash</span>
-          <span>Jupyter</span>
-        </div>
-        <div class="proj-links">
-          <a href="https://github.com/nusratjahan73/nightingale-coxcomb-redesign-project" target="_blank">GitHub →</a>
-        </div>
-      </div>
-      <div class="proj rv d6">
-        <div class="proj-type">Business Analytics &bull; Excel</div>
-        <h3>Retail Sales Profitability Analysis</h3>
-        <p>Analyzed 10,194 transactions, found a discount breakeven near 23%, and built a what if model showing a 10 point discount increase would cut profit by about 94%, plus a forecast and executive dashboard.</p>
-        <div class="proj-tags">
-          <span>Excel</span>
-          <span>Pivot Tables</span>
-          <span>What If Analysis</span>
-          <span>Forecasting</span>
-        </div>
-        <div class="proj-links">
-          <a href="https://drive.google.com/drive/folders/1RGMCNK8Cqc-SyhTkGqDcMyr1qLSdyUnN?usp=sharing" target="_blank">Live →</a>
-        </div>
-      </div>
-      <div class="proj rv d1">
-        <div class="proj-type">Dashboard &bull; Business Intelligence</div>
-        <h3>Sales Report — Power BI</h3>
-        <p>Interactive dashboard analyzing sales across 10 products, 5 categories and 4 countries, built on a star schema with DAX measures and dynamic filters.</p>
-        <div class="proj-tags">
-          <span>Power BI</span>
-          <span>Data Modeling</span>
-          <span>DAX</span>
-        </div>
-        <div class="proj-links">
-          <a href="https://github.com/nusratjahan73/first-pbi-project" target="_blank">GitHub →</a>
-        </div>
-      </div>
-      <div class="proj rv d2">
-        <div class="proj-type">Research &bull; Explainable AI</div>
+      </article>
+
+      <article class="card reveal" data-cat="ai">
+        <span class="num hand">02</span>
+        <p class="tag">Research | Explainable AI</p>
         <h3>Explainable AI for Software Vulnerability Prediction</h3>
-        <p>Reviewed 11 recent studies and proposed a framework linking vulnerability prediction, SHAP and LIME explanations, transparency and trust.</p>
-        <div class="proj-tags">
-          <span>XAI</span>
-          <span>SHAP</span>
-          <span>LIME</span>
+        <p>Security teams get accurate predictions they do not trust. I reviewed 11 recent studies and proposed a framework that links prediction, SHAP and LIME explanations, transparency and trust.</p>
+        <p class="tools">XAI · SHAP · LIME</p>
+        <div class="links">
+          <a href="https://github.com/nusratjahan73/MBAI5310G-AI-Programming-NusratJahan/blob/main/final_project/paper-proposal/FinalPaperProposal.pdf" target="_blank" rel="noopener">Proposal →</a>
         </div>
-        <div class="proj-links">
-          <a href="https://github.com/nusratjahan73/MBAI5310G-AI-Programming-NusratJahan/blob/main/final_project/paper-proposal/FinalPaperProposal.pdf" target="_blank">Proposal →</a>
+      </article>
+
+
+      <article class="card reveal" data-cat="ai">
+        <span class="num hand">03</span>
+        <p class="tag">Machine learning | Clustering</p>
+        <h3>Return Risk Customer Segmentation</h3>
+        <p>I grouped 450 online orders with K Means and found one group where every order came back, tied to the deepest discounts, next to a loyal group returning only 3%. I also wrote why nobody should be judged by a cluster label alone.</p>
+        <p class="tools">Python · scikit-learn · K Means · PCA</p>
+        <div class="links">
+          <a href="https://github.com/nusratjahan73/MBAI5310G-AI-Programming-NusratJahan/tree/main/assignments/week-05-Unsupervised-Learning-Pattern-Discovery/product-return-risk-data-a5" target="_blank" rel="noopener">GitHub →</a>
         </div>
-      </div>
-      <div class="proj rv d3">
-        <div class="proj-type">Scrollytelling &bull; Data Story</div>
-        <h3>AI Exposure & Housing Affordability in Oshawa</h3>
-        <p>Investigating how AI disruption and rising housing costs impact middle-aged workers. Real human stories combined with interactive data visualizations.</p>
-        <div class="proj-tags">
-          <span>Figma</span>
-          <span>Flourish</span>
-          <span>Statistics Canada</span>
-          <span>Stanford HAI</span>
+      </article>
+
+      <article class="card reveal" data-cat="ai">
+        <span class="num hand">04</span>
+        <p class="tag">NLP | Text classification</p>
+        <h3>Hotel Review Routing with NLP</h3>
+        <p>I cleaned 120 guest reviews, built TF IDF features and trained a Naive Bayes model that sends each review to the right hotel team, so guests hear back sooner.</p>
+        <p class="tools">Python · NLTK · spaCy · scikit-learn</p>
+        <div class="links">
+          <a href="https://github.com/nusratjahan73/MBAI5310G-AI-Programming-NusratJahan/tree/main/assignments/week-08-NLP-Text-Processing/hotel-guest-service-nlp-dataset-a8" target="_blank" rel="noopener">GitHub →</a>
         </div>
-        <div class="proj-links">
-          <a href="https://nj-scrollytelling-ai-in-oshawa-story.figma.site/" target="_blank">Live Site →</a>
-          <a href="https://github.com/nusratjahan73/ai-oshawa-scrollytelling-datastory" target="_blank">GitHub →</a>
+      </article>
+
+      <article class="card reveal" data-cat="ai">
+        <span class="num hand">05</span>
+        <p class="tag">NLP | Network analysis</p>
+        <h3>Customer Feedback and Franchise Network Analysis</h3>
+        <p>I labelled telecom reviews by sentiment and mapped how franchise branches talk to each other as a network. Centrality showed the one branch everything depended on.</p>
+        <p class="tools">Python · NLTK · NetworkX · PyVis</p>
+        <div class="links">
+          <a href="https://github.com/nusratjahan73/multi-method-data-analysis-with-python" target="_blank" rel="noopener">GitHub →</a>
         </div>
-      </div>
-      <div class="proj rv d4">
-        <div class="proj-type">Scrollytelling &bull; Creative</div>
+      </article>
+
+      <article class="card reveal" data-cat="bi">
+        <span class="num hand">06</span>
+        <p class="tag">Business analytics | Excel</p>
+        <h3>Retail Sales Profitability Analysis</h3>
+        <p>Across 10,194 transactions I found that discounts stop paying off near 23%, and that 10 more points of discount would wipe out about 94% of profit. Came with a forecast and an executive dashboard.</p>
+        <p class="tools">Excel · Pivot Tables · What If Analysis · Forecasting</p>
+        <div class="links">
+          <a href="https://drive.google.com/drive/folders/1RGMCNK8Cqc-SyhTkGqDcMyr1qLSdyUnN?usp=sharing" target="_blank" rel="noopener">Live →</a>
+        </div>
+      </article>
+
+      <article class="card reveal" data-cat="bi">
+        <span class="num hand">07</span>
+        <p class="tag">Business intelligence | Dashboard</p>
+        <h3>Power BI Sales Dashboard</h3>
+        <p>A sales dashboard across 10 products, 5 categories and 4 countries, built on a star schema with DAX measures and filters you can play with.</p>
+        <p class="tools">Power BI · DAX · Data Modeling</p>
+        <div class="links">
+          <a href="https://github.com/nusratjahan73/first-pbi-project" target="_blank" rel="noopener">GitHub →</a>
+        </div>
+      </article>
+
+      <article class="card reveal" data-cat="story">
+        <span class="num hand">08</span>
+        <p class="tag">Data story | Team of five</p>
+        <h3>AI Exposure and Housing in Oshawa</h3>
+        <p>How many Oshawa workers could AI disrupt, while housing keeps getting more expensive? We shaped the idea together and I built the whole thing: a scrollytelling site in Figma with Flourish charts.</p>
+        <p class="tools">Figma · Flourish · Statistics Canada</p>
+        <div class="links">
+          <a href="https://nj-scrollytelling-ai-in-oshawa-story.figma.site/" target="_blank" rel="noopener">Live Site →</a>
+          <a href="https://github.com/nusratjahan73/ai-oshawa-scrollytelling-datastory" target="_blank" rel="noopener">GitHub →</a>
+        </div>
+      </article>
+
+      <article class="card reveal" data-cat="story">
+        <span class="num hand">09</span>
+        <p class="tag">Interactive visualization | Python</p>
+        <h3>Nightingale's Coxcomb Redesign</h3>
+        <p>I rebuilt the famous 1858 diagram as an interactive dashboard with animated polar charts and click to compare.</p>
+        <p class="tools">Python · Plotly · Dash</p>
+        <div class="links">
+          <a href="https://github.com/nusratjahan73/nightingale-coxcomb-redesign-project" target="_blank" rel="noopener">GitHub →</a>
+        </div>
+      </article>
+
+      <article class="card reveal" data-cat="story">
+        <span class="num hand">10</span>
+        <p class="tag">Data story | Healthcare</p>
         <h3>Hours That Matter: ER Deaths in Canada</h3>
-        <p>A deeply personal storyboard about Canadians lost to emergency room wait times. Real stories, animated panels, interactive data charts.</p>
-        <div class="proj-tags">
-          <span>Figma</span>
-          <span>Miro</span>
-          <span>News Research</span>
-          <span>Storytelling</span>
+        <p>A very personal story about Canadians lost while waiting in emergency rooms. Real stories, animated panels and charts.</p>
+        <p class="tools">Figma · Miro · Research</p>
+        <div class="links">
+          <a href="https://nj-scrollytelling-er-story.figma.site/" target="_blank" rel="noopener">Live Site →</a>
+          <a href="https://github.com/nusratjahan73/scrollytelling-er-deaths-canada-datastory" target="_blank" rel="noopener">GitHub →</a>
         </div>
-        <div class="proj-links">
-          <a href="https://nj-scrollytelling-er-story.figma.site/" target="_blank">Live Site →</a>
-          <a href="https://github.com/nusratjahan73/scrollytelling-er-deaths-canada-datastory" target="_blank">GitHub →</a>
-        </div>
-      </div>
-      <div class="proj rv d5">
-        <div class="proj-type">Infographic &bull; Healthcare AI</div>
-        <h3>AI in Action: ChartWatch AI</h3>
-        <p>Persuasive infographic on how ChartWatch AI reduced unexpected hospital deaths by 26%. Three iterations from brainstorm to final design.</p>
-        <div class="proj-tags">
-          <span>Canva</span>
-          <span>Healthcare</span>
-          <span>Data Research</span>
-        </div>
-        <div class="proj-links">
-          <a href="https://github.com/nusratjahan73/persuasive-infographic-chartwatch-ai" target="_blank">GitHub →</a>
-        </div>
-      </div>
-      <div class="proj rv d6">
-        <div class="proj-type">Forecasting &bull; Retail Analytics</div>
+      </article>
+
+      <article class="card reveal" data-cat="ai">
+        <span class="num hand">11</span>
+        <p class="tag">Machine learning | Time series forecasting</p>
         <h3>Data Wizardry: Forecasting a $2.5M Retail Buy</h3>
-        <p>Forecast Canadian demand around the December 2026 wizarding series using 1.37M Statistics Canada rows, Wikipedia and Google Trends data. Recommended a $2.49M buy with 50 to 60% held for January, when shelves empty but interest stays high.</p>
-        <div class="proj-tags">
-          <span>Python</span>
-          <span>Prophet</span>
-          <span>statsmodels</span>
-          <span>Dask</span>
-          <span>Power BI</span>
+        <p>How much should a retailer buy before a big December series launch? I used 1.37M Statistics Canada rows, Wikipedia views and Google Trends, tested five models, and Prophet won at 13% MAPE. I recommended a $2.49M buy with half or more held for January.</p>
+        <p class="tools">Python · Prophet · statsmodels · Dask · Power BI</p>
+        <div class="links">
+          <a href="https://htmlpreview.github.io/?https://github.com/nusratjahan73/data-wizardry-in-hogwarts/blob/main/web/index.html" target="_blank" rel="noopener">Live Story →</a>
+          <a href="https://github.com/nusratjahan73/data-wizardry-in-hogwarts" target="_blank" rel="noopener">GitHub →</a>
         </div>
-        <div class="proj-links">
-          <a href="https://htmlpreview.github.io/?https://github.com/nusratjahan73/data-wizardry-in-hogwarts/blob/main/web/index.html" target="_blank">Live Story →</a>
-          <a href="https://github.com/nusratjahan73/data-wizardry-in-hogwarts" target="_blank">GitHub →</a>
-        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXPERIENCE ================= -->
+<section class="section experience" id="experience">
+  <div class="wrap">
+    <p class="label">experience</p>
+    <h2 class="serif big">Where I <em>worked</em></h2>
+
+    <div class="job reveal">
+      <div class="job-side"><p class="hand when">Jun 2025 to Apr 2026</p><p class="where">Toronto, ON</p></div>
+      <div>
+        <h3>Payment Solution Advisor <span>Propel Holdings Inc.</span></h3>
+        <ul>
+          <li>Managed 500 to 700 loan accounts a month across three products and sorted every client into proactive, at risk and near default groups, so calls went first to the accounts most likely to recover.</li>
+          <li>Met the data analytics team twice a month to review product trends, set collection targets and rank the accounts that mattered most.</li>
+          <li>Built pivot tables and charts on delinquency and recovery that analysts and leadership used to plan outreach.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job reveal">
+      <div class="job-side"><p class="hand when">Oct 2022 to Oct 2024</p><p class="where">Toronto, ON</p></div>
+      <div>
+        <h3>Accounting Analyst <span>Laurentian Bank</span></h3>
+        <ul>
+          <li>Automated daily reconciliation and reporting with XLOOKUP and Excel macros, saving about 30 minutes a day and cutting errors.</li>
+          <li>Reconciled accounts for investments, loans, mortgages and Visa, matching thousands of transactions a day and tracing mismatches across three systems to their cause.</li>
+          <li>Wrote trend and customer behaviour reports for Directors and Controllers, and checked transaction data against Anti Money Laundering rules.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job reveal">
+      <div class="job-side"><p class="hand when">Sep 2021 to Sep 2022</p><p class="where">Oshawa, ON</p></div>
+      <div>
+        <h3>Financial Customer Service Representative <span>Pay2Day Inc.</span></h3>
+        <ul>
+          <li>Assessed loan applications for repayment risk, investigated suspicious transactions for fraud and money laundering, and set up repayment plans that lowered delinquencies.</li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<div class="line-sep"></div>
-
-<!-- EDUCATION -->
-<section id="education">
-  <div class="container">
-    <div class="sticky-title">EDUCATION</div>
-    <div class="section-label rv">Education</div>
-    <div class="section-title rv">Academic<br>background</div>
-    <div class="edu rv d1">
-      <h3>Master of Business Analytics and AI</h3>
-      <div class="sch">Ontario Tech University</div>
-      <div class="edt">Jan 2026 — Jun 2027</div>
-      <div class="st">In Progress &bull; GPA 4.24 on a 4.30 scale</div>
+<!-- ================= SKILLS + EDUCATION ================= -->
+<section class="section skills" id="skills">
+  <div class="wrap two">
+    <div>
+      <p class="label">skills</p>
+      <h2 class="serif mid">What I work <em>with</em></h2>
+      <dl class="skill-list">
+        <dt>Machine Learning</dt><dd>Python, scikit-learn, Logistic Regression, SVM, Decision Trees, K Means, PCA, class imbalance, cross validation, precision, recall, F1</dd>
+        <dt>NLP</dt><dd>NLTK, spaCy, TF IDF, Naive Bayes, text classification, sentiment analysis</dd>
+        <dt>Explainable and Responsible AI</dt><dd>SHAP, LIME, fairness checks, AI governance, PIPEDA, GDPR, EU AI Act</dd>
+        <dt>Forecasting and Supply Chain</dt><dd>Prophet, statsmodels, Holt Winters, demand forecasting, newsvendor model, supply chain KPIs</dd>
+        <dt>Data and BI</dt><dd>SQL, pandas, NumPy, Dask, NetworkX, Power BI, DAX, Tableau, Excel, Git and GitHub, Jupyter</dd>
+        <dt>Domain</dt><dd>Credit risk, collections, reconciliation, AML and KYC</dd>
+      </dl>
     </div>
-    <div class="edu rv d2">
-      <h3>B.Sc. in Computer Science and Engineering</h3>
-      <div class="sch">Military Institute of Science & Technology (MIST)</div>
-      <div class="st">CGPA: 3.58</div>
-    </div>
-    <div style="margin-top: 4rem;">
-      <div class="section-label rv">Graduate Coursework</div>
-      <div class="course-grid">
-        <div class="cc rv d1">
-          <div class="cc-code">MBAI 5100G</div>
-          <h4>Business Analytics</h4>
-        </div>
-        <div class="cc rv d2">
-          <div class="cc-code">MBAI 5110G</div>
-          <h4>Big Data Systems Design (Upcoming)</h4>
-        </div>
-        <div class="cc rv d3">
-          <div class="cc-code">MBAI 5200G</div>
-          <h4>Ethics & Legal in Analytics/AI</h4>
-        </div>
-        <div class="cc rv d4">
-          <div class="cc-code">MBAI 5300G</div>
-          <h4>Programming & Data Processing</h4>
-        </div>
-        <div class="cc rv d1">
-          <div class="cc-code">MBAI 5310G</div>
-          <h4>AI Programming</h4>
-        </div>
-        <div class="cc rv d2">
-          <div class="cc-code">MBAI 5400G</div>
-          <h4>Visualization & Storytelling</h4>
-        </div>
-        <div class="cc rv d3">
-          <div class="cc-code">MBAI 5820G</div>
-          <h4>Ops and Supply Chain Analytics (In Progress)</h4>
-        </div>
-        <div class="cc rv d4">
-          <div class="cc-code">MBAI 5500G</div>
-          <h4>Security, Privacy & Trust in AI (Upcoming)</h4>
-        </div>
+    <div id="education">
+      <p class="label">education</p>
+      <h2 class="serif mid">Still <em>learning</em></h2>
+      <div class="edu">
+        <h3>Master of Business Analytics and AI</h3>
+        <p>Ontario Tech University, Oshawa, ON</p>
+        <p class="hand gpa">GPA 4.24 out of 4.30 · expected Jun 2027</p>
+        <p class="small">AI Programming, Ethics and Legal Issues in Analytics and AI, Programming and Data Processing, Business Analytics, Visualization and Storytelling, Operations and Supply Chain Analytics (in progress). Coming up: Big Data Systems Design, and Security, Privacy and Trust in AI.</p>
+      </div>
+      <div class="edu">
+        <h3>B.Sc. in Computer Science and Engineering</h3>
+        <p>Military Institute of Science and Technology (MIST)</p>
       </div>
     </div>
   </div>
 </section>
 
-<div class="line-sep"></div>
-
-<!-- CONTACT -->
-<section id="contact" class="contact">
-  <div class="container">
-    <div class="section-label rv">Get In Touch</div>
-    <div class="section-title rv">Let's connect</div>
-    <p class="contact-desc rv">Actively seeking Internship, Co-op, or Full-Time opportunities in Data Analytics, AI, Data Visualization, and Business Analytics & Intelligence.</p>
-    <p class="contact-desc rv">As a Permanent Resident of Canada, I can work for any employer with no permit required and no restriction on hours.</p>
-    <div class="contact-links rv">
-      <a href="mailto:nusrat.jahan4@ontariotechu.net">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-          <polyline points="22,6 12,13 2,6"></polyline>
-        </svg>
-        Email
-      </a>
-      <a href="https://www.linkedin.com/in/nusratjahan73/" target="_blank">
-        <svg viewBox="0 0 24 24">
-          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
-        </svg>
-        LinkedIn
-      </a>
-      <a href="https://github.com/nusratjahan73" target="_blank">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"></path>
-        </svg>
-        GitHub
-      </a>
+<!-- ================= CONTACT ================= -->
+<section class="section contact" id="contact">
+  <div class="wrap center">
+    <p class="hand say">say hello</p>
+    <h2 class="serif big">Let’s build something <em>people can trust</em></h2>
+    <p class="lead">I am looking for Internships, Co-op and Full Time roles in AI, Machine Learning, Data Science and Analytics. As a Permanent Resident of Canada I can work for any employer, no permit needed.</p>
+    <div class="contact-links">
+      <a class="btn btn-ink" href="mailto:nusrat.jahan4@ontariotechu.net">Email me</a>
+      <a class="btn btn-line" href="https://www.linkedin.com/in/nusratjahan73/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-line" href="https://github.com/nusratjahan73" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
+  <footer class="foot mono">© 2026 Nusrat Jahan</footer>
 </section>
 
-<footer>&copy; 2026 Nusrat Jahan</footer>
+</main>
 
-<script>
-// === FLOATING PARTICLES (Canvas) ===
-const canvas = document.getElementById('particleCanvas');
-const ctx = canvas.getContext('2d');
-let W, H;
-
-function resizeCanvas() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-// Data Analytics, AI, and Research Icons
-const icons = [
-  // Bar chart (vertical bars)
-  c => {
-    c.strokeRect(1, 8, 3, 10);
-    c.strokeRect(6, 4, 3, 14);
-    c.strokeRect(11, 10, 3, 8);
-    c.strokeRect(16, 2, 3, 16);
-  },
-  // Pie chart with slices
-  c => {
-    c.beginPath();
-    c.arc(10, 10, 8, 0, Math.PI * 2);
-    c.stroke();
-    c.beginPath();
-    c.moveTo(10, 10);
-    c.lineTo(10, 2);
-    c.moveTo(10, 10);
-    c.lineTo(17, 6);
-    c.moveTo(10, 10);
-    c.lineTo(14, 16);
-    c.stroke();
-  },
-  // Database cylinders
-  c => {
-    c.beginPath();
-    c.ellipse(10, 3, 7, 3, 0, 0, Math.PI * 2);
-    c.stroke();
-    c.beginPath();
-    c.moveTo(3, 3);
-    c.lineTo(3, 14);
-    c.moveTo(17, 3);
-    c.lineTo(17, 14);
-    c.stroke();
-    c.beginPath();
-    c.ellipse(10, 8, 7, 2, 0, 0, Math.PI);
-    c.stroke();
-    c.beginPath();
-    c.ellipse(10, 14, 7, 3, 0, 0, Math.PI * 2);
-    c.stroke();
-  },
-  // Magnifying glass (research)
-  c => {
-    c.beginPath();
-    c.arc(7, 7, 6, 0, Math.PI * 2);
-    c.stroke();
-    c.lineWidth = 2;
-    c.beginPath();
-    c.moveTo(11, 11);
-    c.lineTo(18, 18);
-    c.stroke();
-    c.lineWidth = 1.5;
-  },
-  // Book
-  c => {
-    c.strokeRect(3, 2, 14, 16);
-    c.beginPath();
-    c.moveTo(10, 2);
-    c.lineTo(10, 18);
-    c.moveTo(6, 6);
-    c.lineTo(14, 6);
-    c.moveTo(6, 9);
-    c.lineTo(14, 9);
-    c.moveTo(6, 12);
-    c.lineTo(14, 12);
-    c.stroke();
-  },
-  // Research paper/document
-  c => {
-    c.strokeRect(4, 0, 12, 18);
-    c.beginPath();
-    c.moveTo(7, 4);
-    c.lineTo(13, 4);
-    c.moveTo(7, 7);
-    c.lineTo(13, 7);
-    c.moveTo(7, 10);
-    c.lineTo(13, 10);
-    c.moveTo(7, 13);
-    c.lineTo(13, 13);
-    c.stroke();
-    c.fillRect(6, 15, 1, 1);
-    c.fillRect(8, 15, 1, 1);
-    c.fillRect(10, 15, 1, 1);
-  },
-  // Laptop/Computer
-  c => {
-    c.strokeRect(2, 4, 16, 10);
-    c.beginPath();
-    c.moveTo(0, 14);
-    c.lineTo(20, 14);
-    c.lineTo(18, 16);
-    c.lineTo(2, 16);
-    c.closePath();
-    c.stroke();
-    c.strokeRect(9, 12, 2, 1);
-  },
-  // Coffee cup
-  c => {
-    c.beginPath();
-    c.moveTo(4, 6);
-    c.lineTo(3, 16);
-    c.lineTo(13, 16);
-    c.lineTo(12, 6);
-    c.closePath();
-    c.stroke();
-    c.beginPath();
-    c.arc(8, 6, 4, 0, Math.PI * 2);
-    c.stroke();
-    c.beginPath();
-    c.moveTo(13, 9);
-    c.quadraticCurveTo(16, 9, 16, 11);
-    c.quadraticCurveTo(16, 13, 13, 13);
-    c.stroke();
-    c.beginPath();
-    c.moveTo(6, 2);
-    c.quadraticCurveTo(7, 0, 8, 2);
-    c.moveTo(9, 2);
-    c.quadraticCurveTo(10, 0, 11, 2);
-    c.stroke();
-  },
-  // Excel spreadsheet
-  c => {
-    c.strokeRect(0, 0, 20, 16);
-    c.beginPath();
-    c.moveTo(0, 4);
-    c.lineTo(20, 4);
-    c.moveTo(0, 8);
-    c.lineTo(20, 8);
-    c.moveTo(0, 12);
-    c.lineTo(20, 12);
-    c.moveTo(6, 0);
-    c.lineTo(6, 16);
-    c.moveTo(13, 0);
-    c.lineTo(13, 16);
-    c.stroke();
-    c.fillRect(7.5, 1.5, 1, 1.5);
-    c.fillRect(14, 5, 2, 2);
-    c.fillRect(2, 9.5, 2, 1.5);
-  }
-];
-
-const colors = [
-  'rgba(150, 122, 161, ',
-  'rgba(25, 42, 81, ',
-  'rgba(245, 230, 232, '
-];
-
-class Particle {
-  constructor() {
-    this.init();
-    this.y = Math.random() * H;
-  }
-
-  init() {
-    this.x = Math.random() * W;
-    this.y = -30;
-    this.speed = 0.2 + Math.random() * 0.4;
-    this.icon = icons[Math.floor(Math.random() * icons.length)];
-    this.opacity = 0.1 + Math.random() * 0.15;
-    this.rotation = Math.random() * Math.PI * 2;
-    this.rotationSpeed = (Math.random() - 0.5) * 0.004;
-    this.dx = (Math.random() - 0.5) * 0.3;
-    this.color = colors[Math.floor(Math.random() * colors.length)];
-  }
-
-  update() {
-    this.y += this.speed;
-    this.x += this.dx;
-    this.rotation += this.rotationSpeed;
-    if (this.y > H + 40) this.init();
-  }
-
-  draw() {
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.rotation);
-    ctx.scale(2.5, 2.5);
-    ctx.strokeStyle = this.color + this.opacity + ')';
-    ctx.lineWidth = 1.5;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    this.icon(ctx);
-    ctx.restore();
-  }
-}
-
-const particles = [];
-for (let i = 0; i < 60; i++) {
-  particles.push(new Particle());
-}
-
-function animate() {
-  ctx.clearRect(0, 0, W, H);
-  particles.forEach(particle => {
-    particle.update();
-    particle.draw();
-  });
-  requestAnimationFrame(animate);
-}
-animate();
-
-// === SCROLL REVEAL ===
-const observer = new IntersectionObserver(
-  entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('on');
-      }
-    });
-  },
-  {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  }
-);
-
-document.querySelectorAll('.rv, .rv-l, .rv-r, .rv-scale').forEach(el => {
-  observer.observe(el);
-});
-
-// === SCROLL PROGRESS ===
-window.addEventListener('scroll', () => {
-  const scrollTop = document.documentElement.scrollTop;
-  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-  document.getElementById('prog').style.width = (scrollTop / scrollHeight * 100) + '%';
-  
-  // Toggle nav scrolled state
-  document.getElementById('nav').classList.toggle('scrolled', scrollTop > 80);
-});
-
-// === GEOMETRIC ELEMENTS PARALLAX ===
-const geoCircles = document.querySelectorAll('.geo-circle');
-const geoSquares = document.querySelectorAll('.geo-square');
-
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  
-  geoCircles.forEach((circle, index) => {
-    const speed = 0.1 + (index * 0.05);
-    const offset = scrollY * speed;
-    circle.style.transform = `translateY(${offset}px)`;
-  });
-  
-  geoSquares.forEach((square, index) => {
-    const speed = 0.15 + (index * 0.05);
-    const offset = scrollY * speed;
-    const rotation = 45 + (offset * 0.1);
-    square.style.transform = `translateY(${offset}px) rotate(${rotation}deg)`;
-  });
-});
-</script>
+<script src="js/main.js"></script>
 </body>
 </html>
