@@ -104,7 +104,10 @@ function classify(text) {
 }
 
 const nlpIn = $('#nlpText');
+// the review box wraps long text on phones instead of cutting it off, and grows to fit what is typed
+const grow = () => { nlpIn.style.height = 'auto'; nlpIn.style.height = nlpIn.scrollHeight + 'px'; };
 function show(text) {
+  grow();
   const r = classify(text), words = text.split(/(\s+)/);
   if (!r) {
     $('#nlpTeam').textContent = text.trim() ? 'not sure yet' : '…';
@@ -132,10 +135,21 @@ const bar = (t, p, top) => `<div class="bar${top ? ' top' : ''}"><span>${t}</spa
 const SAMPLES = ['The shower was broken and nobody came to fix it', 'Breakfast was cold and the coffee was terrible', 'Check in took forever and the staff were rude', 'Lovely clean room, fresh towels every day'];
 const CHIPS = ['broken shower', 'cold breakfast', 'slow check in', 'clean room'];
 $('#nlpSamples').innerHTML = CHIPS.map((c, i) => `<button type="button" data-i="${i}">try: ${c}</button>`).join('');
-let touched = false, demoTimer = null;
-$$('#nlpSamples button').forEach(b => b.addEventListener('click', () => { touched = true; clearTimeout(demoTimer); nlpIn.value = SAMPLES[+b.dataset.i]; show(nlpIn.value); }));
-nlpIn.addEventListener('input', () => { touched = true; clearTimeout(demoTimer); show(nlpIn.value); });
-nlpIn.addEventListener('focus', () => { touched = true; clearTimeout(demoTimer); });
+let touched = false, demoTimer = null, typed = false;   // typed: the visitor wrote this text themselves
+$$('#nlpSamples button').forEach(b => b.addEventListener('click', () => { touched = true; typed = false; clearTimeout(demoTimer); nlpIn.value = SAMPLES[+b.dataset.i]; show(nlpIn.value); }));
+nlpIn.addEventListener('input', () => { touched = true; typed = true; clearTimeout(demoTimer); show(nlpIn.value); });
+// clicking into the box clears an example review, so nobody has to delete it first
+nlpIn.addEventListener('focus', () => { touched = true; clearTimeout(demoTimer); if (!typed) { nlpIn.value = ''; show(''); } });
+nlpIn.addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });   // one review, no line breaks
+// keep room for the longest example, so the page does not jump while the demo types
+let boxW = 0;
+function sizeBox() {
+  if (nlpIn.clientWidth === boxW) return; boxW = nlpIn.clientWidth;
+  const keep = nlpIn.value; let tall = 0;
+  nlpIn.style.minHeight = 0;
+  SAMPLES.forEach(s => { nlpIn.value = s; nlpIn.style.height = 'auto'; tall = Math.max(tall, nlpIn.scrollHeight); });
+  nlpIn.value = keep; nlpIn.style.minHeight = tall + 'px'; grow();
+}
 
 // until someone touches it, the box types example reviews by itself
 let demoIdx = 0;
@@ -270,7 +284,7 @@ function morphTick() {
   setTimeout(morphTick, 50);
 }
 
-let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { fitAll(); sizeBg(); drawTimeline(); }, 120); });
+let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { fitAll(); sizeBg(); sizeBox(); drawTimeline(); }, 120); });
 
 /* ---------- 6. reveal on scroll ---------- */
 const io = new IntersectionObserver(list => list.forEach(en => {
@@ -308,5 +322,5 @@ $$('.chip').forEach(c => c.addEventListener('click', () => {
 
 /* ---------- start ---------- */
 fitAll();
-const start = () => { fitAll(); sizeBg(); requestAnimationFrame(bgFrame); drawTimeline(); morphTick(); setTimeout(typeDemo, 900); };
+const start = () => { fitAll(); sizeBox(); sizeBg(); requestAnimationFrame(bgFrame); drawTimeline(); morphTick(); setTimeout(typeDemo, 900); };
 (document.fonts ? document.fonts.ready : Promise.resolve()).then(start);

@@ -1,6 +1,6 @@
 # Hi, I'm Nusrat Jahan 👋
 
-**Artificial Intelligence | Machine Learning | Data Science | Data Analytics**
+**AI ML Data Business | Analytics and Intelligence**
 
 *building AI that people can trust*
 
@@ -98,9 +98,10 @@ My portfolio is built by hand with plain HTML, CSS and JavaScript, so it runs on
 - Project filters, and text that resizes so every line fits on any screen
 
 ```
-index.html       the page and all the content
-css/style.css    the design: colours, fonts, layout, phone sizes
-js/main.js       the review model, the snowflake network and the animations
+index.html           the page and all the content
+css/style.css        the design: colours, fonts, layout, phone sizes
+js/main.js           the review model, the snowflake network and the animations
+images/preview.png   the picture people see when the link is shared
 ```
 
 ---
