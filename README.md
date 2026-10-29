@@ -4,7 +4,7 @@
 
 *building AI that people can trust*
 
-🎓 Master of Business Analytics and AI, Ontario Tech University (GPA 4.24 on a 4.30 scale, expected Jun 2027)  
+🎓 Master of Business Analytics and AI, Ontario Tech University (GPA 4.24 on a 4.30 scale, 3.94 on a 4.0 scale, 98.6%)  
 🎓 B.Sc. in Computer Science and Engineering, Military Institute of Science and Technology (MIST)  
 💼 Open to Internships, Co-op and Full Time roles in AI, Machine Learning, Data Science and Analytics  
 🍁 Permanent Resident of Canada, no work permit needed  
